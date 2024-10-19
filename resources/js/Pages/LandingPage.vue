@@ -1,9 +1,9 @@
-<template>
+    <template>
     <div class="d-flex flex-column text-white background-image">
         <div class="content">
 
             <!-- Header -->
-            <header class="d-flex" style="height: 5rem; background-color: #161D6F;">
+            <header class="d-flex  " style="height: 5rem; background-color: #161D6F;">
                 <div class="d-flex align-items-center container text-white">
                     <n-image width="60" src="/images/logo-yatindo-hd.png" />
                     <span class="ms-4 fw-bold fs-5">PPDB YATINDO</span>
@@ -31,22 +31,22 @@
                                     Mustika Jaya, Kota Bks, Jawa Barat 17158</span>
                             </div>
                             <div class="d-flex gap-3">
-                                <div class="d-flex align-items-center bg-primary p-3"
+                                <div class="d-flex align-items-center bg-primary p-2"
                                     style="border-radius: 5px; cursor: pointer;">
                                     <img src="/images/whatsapp.svg" alt="svgs" height="30">
                                 </div>
-                                <div class="d-flex align-items-center bg-primary p-3"
+                                <div class="d-flex align-items-center bg-primary p-2"
                                     style="border-radius: 5px; cursor: pointer;">
-                                    <img src="/images/instagram.svg" alt="svgs" height="30">
+                                    <img src="/images/instagram.svg" alt="svgs" height="30" >
                                 </div>
-                                <div class="d-flex align-items-center bg-primary p-3"
+                                <div class="d-flex align-items-center bg-primary p-2"
                                     style="border-radius: 5px; cursor: pointer;">
                                     <img src="/images/youtube.svg" alt="svgs" height="30">
                                 </div>
                             </div>
                         </div>
                         <div class="col-12 col-lg-6 d-flex justify-content-center align-items-center">
-                            <n-image width="500" src="/images/smk-1.jpg" class="rounded shadow" />
+                            <n-image width="500" src="/images/smk-1.jpg" class="rounded-4   shadow" />
                         </div>
                     </div>
                 </div>
@@ -135,6 +135,10 @@
     z-index: 1;
     /* Di atas gambar latar belakang */
     pointer-events: none;
+    backdrop-filter: blur(5px); /* Menambahkan efek blur */
+    background-color: rgba(0, 0, 0, 0.4); /* Menambahkan overlay gelap */
+    /* Efek brightness */
+    filter: brightness(0.7); /* Kurangi kecerahan gambar */
     /* Ini mencegah overlay menghalangi interaksi */
 }
 
