@@ -8,3 +8,5 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', [LandingPageController::class, 'show']);
+
+require __DIR__.'/auth.php';

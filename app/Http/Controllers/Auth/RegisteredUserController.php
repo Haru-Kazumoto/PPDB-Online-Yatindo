@@ -21,6 +21,16 @@ class RegisteredUserController extends Controller
     //     ]);
     // }
 
+    public function showRegisterSmp()
+    {
+        return Inertia::render('Auth/RegisterSMP');
+    }
+
+    public function showRegisterSmk()
+    {
+        return Inertia::render('Auth/RegisterSMK');
+    }
+
     /**
      * Creating a new user from superadmin
      * 
