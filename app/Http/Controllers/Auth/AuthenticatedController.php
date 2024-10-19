@@ -12,9 +12,9 @@ use Inertia\Response;
 
 class AuthenticatedController extends Controller
 {
-    public function showLoginView(): Response
+    public function showLogin(): Response
     {
-        return Inertia::render('Auth/Login');
+        return Inertia::render('Auth/Signin');
     }
 
     public function login(LoginRequest $loginRequest)

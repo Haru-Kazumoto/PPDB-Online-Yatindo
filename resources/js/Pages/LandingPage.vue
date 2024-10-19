@@ -162,9 +162,6 @@ export default defineComponent({
             },
         };
     },
-    components: {
-    }
+    layout: null,
 });
 </script>
-
-<style scoped></style>
