@@ -55,6 +55,6 @@ Route::middleware(['auth','web'])->group(function() {
 
 });
 
-Route::get('/', [LandingPageController::class, 'show']);
+Route::get('/ppdb', [LandingPageController::class, 'show']);
 
 require __DIR__.'/auth.php';
