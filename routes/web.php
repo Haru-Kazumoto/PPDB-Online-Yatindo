@@ -3,9 +3,11 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\ParticipantController;
+use App\Http\Controllers\PurchasingController;
 use App\Http\Controllers\RegistrationBatchController;
 use App\Http\Controllers\RegistrationPathController;
 use App\Http\Controllers\RegistrationStepController;
+use App\Http\Controllers\ReturningController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified'])->group(function() {
@@ -51,6 +53,19 @@ Route::middleware(['auth','web'])->group(function() {
     Route::name('participant')->prefix('participants')->group(function() {
         Route::get('', [ParticipantController::class, 'indexBatches'])->name('.index-batch');
         Route::get('list/{registrationBatch}', [ParticipantController::class, 'detailBatchesAndParticipants'])->name('.list');
+    });
+
+    // Purchasing
+    Route::name('purchasing')->prefix('purchasing')->group(function() {
+        Route::get('', [PurchasingController::class, 'index'])->name('.index');
+        Route::get('/pay-purchase', [PurchasingController::class, 'showPurchase'])->name('.purchase');
+        
+        Route::post('/post-assign', [PurchasingController::class, 'purchaseForm'])->name('.assign-1');
+    });
+
+    // Returning
+    Route::name('returning')->prefix('returning')->group(function() {
+        Route::get('', [ReturningController::class, 'index'])->name('.index');
     });
 
 });

@@ -29,9 +29,9 @@
 
 <script lang="ts">
 import { defineComponent, ref, provide, h, computed } from 'vue';
-import { Link, router, usePage } from '@inertiajs/vue3';
-import { MenuOption, MenuProps, NIcon } from 'naive-ui';
-import { ArrowForwardDownPerson20Filled, Home16Filled, ArrowForwardDownPerson24Filled, BorderAll24Regular, Branch24Filled, ChevronDown12Regular, PeopleCommunity20Filled } from "@vicons/fluent";
+import { Link, usePage } from '@inertiajs/vue3';
+import { MenuProps } from 'naive-ui';
+import { Home16Filled,BranchCompare24Filled,DocumentBriefcase24Filled, ArrowForwardDownPerson24Filled, BorderAll24Regular, Branch24Filled, ChevronDown12Regular, PeopleCommunity20Filled } from "@vicons/fluent";
 import Header from "../Components/Header.vue";
 import { renderIcon } from "../Utils/menus.ts";
 
@@ -66,9 +66,21 @@ const menuOptions = {
         {
             label: "Dashboard",
             key: 'dashboard',
-            href: "/dashbord/student",
+            href: "/dashboard/student",
             icon: renderIcon(Home16Filled)
-        }
+        },
+        {
+            label: "Pembelian",
+            key: 'purchasing',
+            href: "/purchasing",
+            icon: renderIcon(DocumentBriefcase24Filled)
+        },
+        {
+            label: "Pengembalian",
+            key: 'returning',
+            href: "/returning",
+            icon: renderIcon(BranchCompare24Filled)
+        },
     ]
 }
 

@@ -8,7 +8,7 @@
                         <n-image width="60" src="/images/logo-yatindo-hd.png" />
                         <span class="ms-4 fw-bold fs-5">PPDB YATINDO</span>
                     </div>
-                    <n-button v-on:click="handleClick()" type="info" size="large" class="font-bold"
+                    <n-button @click="router.visit(route('login'))" type="info" size="large" class="font-bold"
                         color="#4B70F5">Masuk</n-button>
                 </div>
             </header>
@@ -18,7 +18,7 @@
                 <!-- content ini berada dalam 1 viewport utuh -->
                 <div class="d-flex container-fluid justify-content-center align-items-center"
                     style="min-height: 100vh;">
-                    <div class="row g-2 w-100">
+                    <div class="row w-100">
                         <div class="col-12 col-lg-6 gap-3 d-flex flex-column">
                             <div class="d-flex gap-3 align-items-center">
                                 <n-image width="70" src="/images/logo-yatindo-hd.png" />
@@ -79,10 +79,9 @@
     </div>
 </template>
 
-
-
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { router } from "@inertiajs/vue3";
 
 export default defineComponent({
     setup() {
@@ -90,6 +89,7 @@ export default defineComponent({
             video_id: '_kn0tdEeyJQ', // YouTube video ID
             loop: 0,
             autoplay: 1,
+            router,
             onReady() {
                 this.$refs.youtube.playVideo()
             },

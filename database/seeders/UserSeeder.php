@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Student;
 use App\Models\StudentAddress;
+use App\Models\StudentInfo;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -23,12 +24,12 @@ class UserSeeder extends Seeder
         // ]);
         DB::transaction(function() {
             $user = User::create([
-                'username' => '123456789',
+                'username' => '1234567890',
                 'password' => '123',
             ]);
     
             $student = Student::create([
-                'fullname' => 'Ziaurrahman Athaya',
+                'fullname' => 'jiaw',
                 'phone' => $user->username,
                 'gender' => "LAKI_LAKI",
                 'grade' => "SMK",
@@ -37,6 +38,11 @@ class UserSeeder extends Seeder
     
             StudentAddress::create([
                 'address' => 'Bekasi jawa barat cimuning sono an dikit',
+                'student_id' => $student->id,
+            ]);
+
+            StudentInfo::create([
+                'school_origin' => "YATINDO",
                 'student_id' => $student->id,
             ]);
         });
