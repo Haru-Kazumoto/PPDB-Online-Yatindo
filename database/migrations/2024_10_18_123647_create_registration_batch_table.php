@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('bank_number_account');
             $table->float('registration_price');
 
-            $table->foreignId('registration_paths_id')->constrained('registration_paths')->cascadeOnDelete();
+            $table->foreignId('registration_path_id')->constrained('registration_paths')->cascadeOnDelete();
             $table->timestamps();
         });
     }

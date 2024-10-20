@@ -1,7 +1,7 @@
 <template>
     <n-notification-provider>
         <div class="d-flex vh-100">
-            <Header class="d-md-none" /> <!-- Header hanya muncul di mobile -->
+            <!-- <Header class="d-md-none" /> Header hanya muncul di mobile -->
 
             <div class="d-flex flex-row flex-grow-1">
                 <!-- Kolom kiri untuk konten utama -->

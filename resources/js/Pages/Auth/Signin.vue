@@ -3,22 +3,22 @@
     <Head title="Signup" />
     <div class="d-flex flex-column vh-100 justify-content-center align-items-center">
         <span class="fs-3 fw-semibold mb-5">Hai, Selamat datang!</span>
-        <form @submit.prevent="" class="w-50 d-flex flex-column gap-4">
+        <form @submit.prevent="handleLogin" class="w-50 d-flex flex-column gap-4">
 
             <div class="d-flex flex-column gap-1">
                 <Label label="Username" required sizeForm="large" />
-                <n-input placeholder="" size="large" />
+                <n-input placeholder="" size="large"  v-model:value="form.username"/>
             </div>
             <div class="d-flex flex-column gap-1">
                 <Label label="Password" required sizeForm="large" />
-                <n-input placeholder="" size="large" />
+                <n-input placeholder="" size="large" v-model:value="form.password" />
             </div>
 
-            <n-button type="info" color="#161D6F" size="large">Masuk</n-button>
+            <n-button type="info" color="#161D6F" size="large" attr-type="submit" @click="handleLogin">Masuk</n-button>
 
             <div class="d-flex align-items-center">
-                <Link @click.prevent="showRegisterChoice">Daftar disini!</Link>
-                <Link class="ms-auto">Lapor lupa akun</Link>
+                <Link href="" @click.prevent="showRegisterChoice">Daftar disini!</Link>
+                <Link href="" class="ms-auto">Lapor lupa akun</Link>
             </div>
 
         </form>
@@ -29,11 +29,27 @@
 import { defineComponent } from 'vue'
 import GuestLayout from '../../Layouts/GuestLayout.vue';
 import Label from '../../Components/Label.vue';
-import { Head, Link, router } from '@inertiajs/vue3';
+import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import Swal from 'sweetalert2';
 
 export default defineComponent({
     setup() {
+        const form = useForm({
+            username: '',
+            password: '',
+        });
+
+        function handleLogin() {
+            form.post(route('login'), {
+                onSuccess: () => {
+                    Swal.fire('Sukses masuk!', 'Selamat datang.', 'success');
+                },
+                onError: () => {
+                    Swal.fire('Gagal masuk!', 'Coba lagi.', 'error');
+                }
+            })
+        }
+
         function showRegisterChoice() {
             Swal.fire({
                 title: 'Pilih Jenjang',
@@ -54,7 +70,9 @@ export default defineComponent({
         }
 
         return {
-            showRegisterChoice
+            showRegisterChoice,
+            handleLogin,
+            form,
         }
     },
     layout: GuestLayout,

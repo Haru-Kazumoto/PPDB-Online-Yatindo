@@ -39,6 +39,14 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'auth' => function () use ($request): array {
                 $user = $request->user();
+
+                if ($user) {
+                    $user->load([
+                        'student', // Relasi one-to-one ke student
+                        'student.studentAddress', // Relasi ke student_address melalui student
+                        'student.studentInfo' // Relasi ke student_info melalui student
+                    ]);
+                }
                 
                 return [
                     'user' => $user,
