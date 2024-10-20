@@ -1,18 +1,12 @@
 <template>
     <div class="d-flex flex-column text-white background-image">
         <div class="content">
-
             <!-- Header -->
-            <header class="d-flex  " style="height: 5rem; background-color: #161D6F;">
-                <div class="d-flex align-items-center container text-white justify-content-between">
+            <header class="d-flex " style="height: 5rem; background-color: #161D6F;">
+                <div class="d-flex align-items-center container mx-5 text-white justify-content-between">
                     <div class="d-flex align-items-center">
                         <n-image width="60" src="/images/logo-yatindo-hd.png" />
                         <span class="ms-4 fw-bold fs-5">PPDB YATINDO</span>
-                    </div>
-                    <div class="flex items-center justify-center font-bold  gap-4">
-                        <span class="cursor-pointer">Beranda</span>
-                        <span class="cursor-pointer">Daftar</span>
-                        <span class="cursor-pointer">Alur Pendaftaran</span>
                     </div>
                     <n-button v-on:click="handleClick()" type="info" size="large" class="font-bold"
                         color="#4B70F5">Masuk</n-button>
@@ -22,7 +16,8 @@
             <!-- content -->
             <main class="d-flex flex-column container">
                 <!-- content ini berada dalam 1 viewport utuh -->
-                <div class="d-flex container-fluid justify-content-center align-items-center" style="min-height: 100vh;">
+                <div class="d-flex container-fluid justify-content-center align-items-center"
+                    style="min-height: 100vh;">
                     <div class="row g-2 w-100">
                         <div class="col-12 col-lg-6 gap-3 d-flex flex-column">
                             <div class="d-flex gap-3 align-items-center">
@@ -65,8 +60,8 @@
                             <div class="d-flex justify-content-center">
                                 <span class="fw-semibold">Daftar PPDB SMK</span>
                             </div>
-                            <n-image width="300" style="width: 100%; height: auto; object-fit: cover;" src="/images/smk.jpg"
-                                preview-disabled />
+                            <n-image width="300" style="width: 100%; height: auto; object-fit: cover;"
+                                src="/images/smk.jpg" preview-disabled />
                         </div>
                     </div>
                     <div class="card border-0">
@@ -79,25 +74,6 @@
                         </div>
                     </div>
                 </div>
-
-                <div style="margin-top: 10rem;">
-                    <div class="label ">
-                        Alur Pendaftaran SMP
-                    </div>
-                    <!-- <EditorVue /> -->
-                    <div>
-                        <Tiptap v-model="content" editable class="mx-auto  max-w-[50rem]" styling="text-black m-5 focus:outline-none bg-white  p-5"/>
-
-                        <div class="output-group">
-                            <label>Content</label>
-                            <p>{{ content }}</p>
-                        </div>
-                    </div>
-                    <div class="label">
-                        Alur Pendaftaran SMK
-                    </div>
-
-                </div>
             </main>
         </div>
     </div>
@@ -107,8 +83,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import Tiptap from '../Components/Tiptap.vue'
-// import EditorVue from '../Components/Editor.vue';
 
 export default defineComponent({
     setup() {
@@ -120,10 +94,6 @@ export default defineComponent({
                 this.$refs.youtube.playVideo()
             },
         };
-    },
-    components: {
-        Tiptap,
-        // EditorVue
     },
     layout: null,
     methods: {
@@ -202,11 +172,11 @@ export default defineComponent({
 </style>
 
 <!-- Konten lainnya yang bisa di-scroll -->
-                <!-- <div class="d-flex flex-column">
+<!-- <div class="d-flex flex-column">
                     <youtube-vue3 :videoid="video_id" :loop="loop" :autoplay="autoplay" />
                 </div> -->
 
-                <!-- <div class="row g-4 mb-3">
+<!-- <div class="row g-4 mb-3">
                     <div class="col-12 col-md-6 col-lg-6">
                         <div class="card border-0">
                             <div class="card-body d-flex flex-column">
