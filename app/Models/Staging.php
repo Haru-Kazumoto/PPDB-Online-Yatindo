@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Staging extends Model
 {
+    protected $table = 'staging';
+
     protected $fillable = [
         'staging_name',
         'index',

@@ -4,10 +4,12 @@ namespace Database\Seeders;
 
 use App\Models\Student;
 use App\Models\StudentAddress;
+use App\Models\StudentInfo;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -21,22 +23,29 @@ class UserSeeder extends Seeder
         //     'password' => '123',
         //     'is_admin' => true,
         // ]);
-        DB::transaction(function() {
+        DB::transaction(function () {
             $user = User::create([
-                'username' => '123456789',
-                'password' => '123',
+                'username' => 'siswa',
+                'password' => Hash::make('siswa'),
             ]);
-    
+
             $student = Student::create([
-                'fullname' => 'Ziaurrahman Athaya',
+                'fullname' => 'jiaw',
                 'phone' => $user->username,
                 'gender' => "LAKI_LAKI",
                 'grade' => "SMK",
+                'religion' => "",
                 'user_id' => $user->id,
             ]);
-    
+
             StudentAddress::create([
                 'address' => 'Bekasi jawa barat cimuning sono an dikit',
+                'student_id' => $student->id,
+            ]);
+
+            StudentInfo::create([
+                'profile_picture' => "",
+                'school_origin' => "YATINDO",
                 'student_id' => $student->id,
             ]);
         });

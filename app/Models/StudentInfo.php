@@ -14,6 +14,11 @@ class StudentInfo extends Model
         'school_origin',
         'profile_picture',
         'status',
+        'student_id',
+        'batch_id',
+        'current_step',
+        'step_name',
+        'step_type',
     ];
 
     public function student(): BelongsTo

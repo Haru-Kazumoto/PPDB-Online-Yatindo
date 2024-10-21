@@ -12,6 +12,8 @@ class StudentPayments extends Model
         'payment_method',
         'payment_image',
         'status',
+        'student_id',
+        'batch_id',
     ];
 
     public function student(): BelongsTo

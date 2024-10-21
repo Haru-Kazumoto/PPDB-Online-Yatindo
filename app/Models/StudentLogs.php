@@ -13,6 +13,9 @@ class StudentLogs extends Model
         'major_fix',
         'remark',
         'registration_type',
+        'batch_id',
+        'staging_id',
+        'student_id',
     ];
 
     public function registrationBatch(): BelongsTo
