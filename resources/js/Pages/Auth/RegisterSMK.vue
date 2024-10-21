@@ -1,51 +1,60 @@
+<template>
+
+    <Head title="Signup" />
+    <div class="d-flex flex-column vh-100 justify-content-center align-items-center my-5">
+        <span class="fs-3 fw-semibold">Daftarkan informasi anda</span>
+        <form action="" class="w-50 d-flex flex-column gap-4 mt-5">
+            <d-flex class="flex-column gap-1">
+                <Label label="Nomor Whatsapp (AKTIF)" required sizeForm="large" />
+                <n-input placeholder="" size="large" />
+            </d-flex>
+            <d-flex class="flex-column gap-1">
+                <Label label="Nama Lengkap" required sizeForm="large" />
+                <n-input placeholder="" size="large" />
+            </d-flex>
+            <d-flex class="flex-column gap-1">
+                <Label label="Alamat" required sizeForm="large" />
+                <n-input placeholder="" size="large" type="textarea" />
+            </d-flex>
+            <d-flex class="flex-column gap-1">
+                <Label label="Jenis Kelamin" required sizeForm="large" />
+                <n-input placeholder="" size="large" />
+            </d-flex>
+            <d-flex class="flex-column gap-1">
+                <Label label="Asal Sekolah" required sizeForm="large" />
+                <n-input placeholder="" size="large" />
+            </d-flex>
+            <d-flex class="flex-column gap-1">
+                <Label label="Password" required sizeForm="large" />
+                <n-input placeholder="" size="large" type="password"/>
+            </d-flex>
+
+            <n-button type="info" color="#161D6F" size="large" attr-type="submit" >Masuk</n-button>
+
+            <!-- <div class="d-flex align-items-center">
+                <Link href="" >Daftar disini!</Link>
+                <Link href="" class="ms-auto">Lapor lupa akun</Link>
+            </div> -->
+        </form>
+    </div>
+</template>
+
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import GuestLayout from '../../Layouts/GuestLayout.vue';
+import { Head } from '@inertiajs/vue3';
+import Label from '../../Components/Label.vue';
 
 export default defineComponent({
+    components: {
+        Head,
+        Label
+    },
     setup() {
-        const current = ref(0);
-        const currentStatus = ref('process');
-
-        const next = () => {
-            if (current.value < 1) {
-                current.value++;
-            }
-        };
-
-        const prev = () => {
-            if (current.value > 0) {
-                current.value--;
-            }
-        };
 
         return {
-            current,
-            currentStatus,
-            next,
-            prev,
         };
     },
-    layout: GuestLayout
+    layout: GuestLayout,
 });
 </script>
-
-<template>
-    <div class="flex flex-col items-center justify-center ">
-        <div class="form-wrapper w-[30rem] my-24 flex flex-col gap-2">
-
-            <h1 class="font-semibold text-3xl text-center">Daftar SMK</h1>
-            <n-input type="text" aria-label="asdasd" placeholder="Nomor Whatsapp" />
-
-            <n-input type="text" placeholder="Nama Lengkap" />
-            <n-input type="text" placeholder="Alamat" />
-            <n-input type="text" placeholder="Jenis Kelamin" />
-            <n-input type="text" placeholder="Asal Sekolah" />
-            <n-divider />
-            <n-input type="text" placeholder="Password" />
-            <n-button type="info" >
-                Kirim
-            </n-button>
-        </div>
-    </div>
-</template>
