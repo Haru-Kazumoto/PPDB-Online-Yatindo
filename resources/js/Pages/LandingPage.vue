@@ -53,8 +53,11 @@
                     </div>
                 </div>
 
+                <div class="flex flex-col">
 
-                <div class="d-flex justify-content-center gap-5">
+                </div>
+
+                <div class="d-flex justify-content-center  gap-5 my-40">
                     <div class="card border-0">
                         <div class="card-body d-flex flex-column">
                             <div class="d-flex justify-content-center">

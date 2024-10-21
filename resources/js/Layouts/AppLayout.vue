@@ -123,7 +123,7 @@ export default defineComponent({
 
         // Pilih menu berdasarkan user.is_admin
         const selectedMenuOptions = computed(() => {
-            return user.is_admin ? menuOptions.admin : menuOptions.siswa;
+            return user?.is_admin ? menuOptions.admin : menuOptions.siswa;
         });
 
         // Provide state and toggle function to child components
