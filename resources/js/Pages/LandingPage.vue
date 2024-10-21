@@ -2,8 +2,8 @@
     <div class="d-flex flex-column text-white background-image">
         <div class="content">
             <!-- Header -->
-            <header class="d-flex " style="height: 5rem; background-color: #161D6F;">
-                <div class="d-flex align-items-center container mx-5 text-white justify-content-between">
+            <header class="d-flex fixed top-0 left-0 w-full z-50" style="height: 5rem; background-color: #161D6F;">
+                <div class="d-flex align-items-center  text-white justify-content-between w-full mx-10 min-sm:mx-24">
                     <div class="d-flex align-items-center">
                         <n-image width="60" src="/images/logo-yatindo-hd.png" />
                         <span class="ms-4 fw-bold fs-5">PPDB YATINDO</span>
@@ -16,10 +16,10 @@
             <!-- content -->
             <main class="d-flex flex-column container">
                 <!-- content ini berada dalam 1 viewport utuh -->
-                <div class="d-flex container-fluid justify-content-center align-items-center"
+                <div class="d-flex mt-14 container-fluid justify-content-center align-items-center"
                     style="min-height: 100vh;">
-                    <div class="row w-100">
-                        <div class="col-12 col-lg-6 gap-3 d-flex flex-column">
+                    <div class=" w-100  flex max-lg:flex-col max-lg:gap-16 items-center">
+                        <div class="col-12 col-lg-6 gap-3 d-flex flex-column flex-1">
                             <div class="d-flex gap-3 align-items-center">
                                 <n-image width="70" src="/images/logo-yatindo-hd.png" />
                                 <div style="height: 70px; width: 2px; background-color: white;"></div>
@@ -53,30 +53,82 @@
                     </div>
                 </div>
 
-                <div class="flex flex-col">
+                <div class="flex max-md:flex-col items-center justify-content-center  gap-5 my-40">
+                    <div class="group/card font-bold text-black bg-white rounded-md w-[90%] max-w-[30rem]">
+                        <div class="py-2 text-center text-xl">DAFTAR PPDB SMP</div>
+                        <div class="overflow-hidden">
 
-                </div>
-
-                <div class="d-flex justify-content-center  gap-5 my-40">
-                    <div class="card border-0">
-                        <div class="card-body d-flex flex-column">
-                            <div class="d-flex justify-content-center">
-                                <span class="fw-semibold">Daftar PPDB SMK</span>
+                            <div style="background-image: url(/images/smp.jpg);"
+                                class="h-[18rem] w-full bg-cover bg-no-repeat bg-center transition-all group-hover/card:scale-110 ">
                             </div>
-                            <n-image width="300" style="width: 100%; height: auto; object-fit: cover;"
-                                src="/images/smk.jpg" preview-disabled />
+                        </div>
+                        <div class="p-2 ">
+                            <n-button color="#2A166F" class="w-full  text-white font-bold">DAFTAR</n-button>
                         </div>
                     </div>
-                    <div class="card border-0">
-                        <div class="card-body d-flex flex-column">
-                            <div class="d-flex justify-content-center">
-                                <span class="fw-semibold">Daftar PPDB SMP</span>
+                    <div class="group/card font-bold text-black bg-white rounded-md w-[90%] max-w-[30rem]">
+                        <div class="py-2 text-center text-xl">DAFTAR PPDB SMP</div>
+                        <div class="overflow-hidden">
+                            <div style="background-image: url(/images/smk.jpg);"
+                                class="h-[18rem] w-full bg-cover bg-no-repeat bg-center transition-all group-hover/card:scale-110 ">
                             </div>
-                            <n-image width="300" style="width: 100%; height: auto; object-fit: cover;"
-                                src="/images/smp.jpg" />
+                        </div>
+                        <div class="p-2 ">
+                            <n-button color="#F76707" class="w-full  font-bold">DAFTAR</n-button>
                         </div>
                     </div>
                 </div>
+
+                <div class="mt-24 text-black w-fit mx-auto font-bold text-2xl max-md:mb-[150%] mb-[70%] ">
+                    <div class="px-10 py-3 bg-white rounded-full text-center">
+                        Alur Pendaftaran SMP
+                    </div>
+                    <div class="bg-white p-24 my-5 rounded-xl">
+                        Alur Peendaftaran Kosong
+                    </div>
+                    <div class="px-10 py-3 bg-white rounded-full text-center">
+                        Alur Pendaftaran SMP
+                    </div>
+                    <div class="bg-white p-24 my-5 rounded-xl">
+                        Alur Peendaftaran Kosong
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                    </div>
+                </div>
+
+                <footer
+                    class="overflow-hidden bg-[#1C0D59] pt-16 px-4 h-auto w-full  absolute bottom-0 left-0 flex flex-col">
+                    <h1 class="font-bold sm:text-4xl text-2xl text-center">TETAP TERHUBUNG DENGAN KAMI</h1>
+                    <a class="text-center mt-2" href="https://smk-smptintaemas.sch.id/"
+                        target="_blank">https://smk-smptintaemas.sch.id/</a>
+
+                    <p class="text-center mb-3">
+                        Telefon : +622182610808
+                    </p>
+                    <div class="mx-auto sm:hidden">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1541.0929545420765!2d107.0228664532594!3d-6.297820112354298!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e699198f3bc4929%3A0x8f8b6c3cc53dc7cf!2sSMP%20-%20SMK%20Tinta%20Emas%20Indonesia%20(Yatindo)!5e0!3m2!1sid!2sid!4v1729492538103!5m2!1sid!2sid"
+                            width="480" height="250" style="border:0;" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                    <div class="mx-auto max-sm:hidden">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1541.0929545420765!2d107.0228664532594!3d-6.297820112354298!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e699198f3bc4929%3A0x8f8b6c3cc53dc7cf!2sSMP%20-%20SMK%20Tinta%20Emas%20Indonesia%20(Yatindo)!5e0!3m2!1sid!2sid!4v1729492538103!5m2!1sid!2sid"
+                            width="1080" height="450" style="border:0;" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                    <p class="text-center my-5">Copyright ©2024 Yayasan Tinta Emas Indonesia <br /> All rights reserved.
+                        <br />
+                        <br />
+                        Powered by Dcoder's.
+                    </p>
+                </footer>
             </main>
         </div>
     </div>
@@ -173,33 +225,3 @@ export default defineComponent({
     border-radius: 5rem;
 }
 </style>
-
-<!-- Konten lainnya yang bisa di-scroll -->
-<!-- <div class="d-flex flex-column">
-                    <youtube-vue3 :videoid="video_id" :loop="loop" :autoplay="autoplay" />
-                </div> -->
-
-<!-- <div class="row g-4 mb-3">
-                    <div class="col-12 col-md-6 col-lg-6">
-                        <div class="card border-0">
-                            <div class="card-body d-flex flex-column">
-                                <div class="d-flex justify-content-center">
-                                    <span class="fw-semibold">Daftar PPDB SMK</span>
-                                </div>
-                                <n-image width="300" style="width: 100%; height: auto; object-fit: cover;"
-                                    src="/images/smk.jpg" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-lg-6">
-                        <div class="card border-0">
-                            <div class="card-body d-flex flex-column">
-                                <div class="d-flex justify-content-center">
-                                    <span class="fw-semibold">Daftar PPDB SMP</span>
-                                </div>
-                                <n-image width="300" style="width: 100%; height: auto; object-fit: cover;"
-                                    src="/images/smp.jpg" />
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
