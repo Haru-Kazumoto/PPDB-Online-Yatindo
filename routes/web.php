@@ -58,9 +58,10 @@ Route::middleware(['auth','web'])->group(function() {
     // Purchasing
     Route::name('purchasing')->prefix('purchasing')->group(function() {
         Route::get('', [PurchasingController::class, 'index'])->name('.index');
-        Route::get('/pay-purchase', [PurchasingController::class, 'showPurchase'])->name('.purchase');
+        Route::post('/purchase-update', [PurchasingController::class, 'updateInfo'])->name('.purchase-update');
+        Route::post('/payment-add', [PurchasingController::class, 'addPayment'])->name('.payment-add');
         
-        Route::post('/post-assign', [PurchasingController::class, 'purchaseForm'])->name('.assign-1');
+        // Route::post('/post-assign', [PurchasingController::class, 'purchaseForm'])->name('.assign-1');
     });
 
     // Returning
