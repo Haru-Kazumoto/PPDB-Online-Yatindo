@@ -114,7 +114,7 @@
                     <div class="mx-auto sm:hidden">
                         <iframe
                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1541.0929545420765!2d107.0228664532594!3d-6.297820112354298!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e699198f3bc4929%3A0x8f8b6c3cc53dc7cf!2sSMP%20-%20SMK%20Tinta%20Emas%20Indonesia%20(Yatindo)!5e0!3m2!1sid!2sid!4v1729492538103!5m2!1sid!2sid"
-                            width="480" height="250" style="border:0;" loading="lazy"
+                            width="420" height="480" style="border:0;" loading="lazy"
                             referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
                     <div class="mx-auto max-sm:hidden">
