@@ -28,7 +28,7 @@
                 <n-input placeholder="" size="large" type="password" />
             </d-flex>
 
-            <n-button type="info" color="#161D6F" size="large" attr-type="submit">Daftar</n-button>
+            <n-button type="info" color="#161D6F" size="large" attr-type="submit">Daftar SMP</n-button>
 
             <!-- <div class="d-flex align-items-center">
                 <Link href="" >Daftar disini!</Link>
