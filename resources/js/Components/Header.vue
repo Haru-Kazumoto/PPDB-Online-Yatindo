@@ -13,7 +13,7 @@
                     <div class="d-flex bg-white p-2 rounded-circle">
                         <n-icon :component="Person32Filled" color="black"/>
                     </div>
-                    <span class="d-none d-md-flex">{{ $page.props.auth.user.username }}</span>
+                    <span class="d-none d-md-flex">{{ $page.props.auth.user?.username }}</span>
                     <n-icon :component="ChevronDown12Regular"/>
                 </div>
             </n-dropdown>
@@ -56,14 +56,14 @@ export default defineComponent({
 
         // Computed property untuk menentukan warna background
         const backgroundColor = computed(() => {
-            if (page.props.auth.user.is_admin) {
+            if (page.props.auth.user?.is_admin) {
                 return '#002365'; // Warna jika admin
             } else {
-                if (page.props.auth.user.student !== null) {
+                if (page.props.auth.user?.student !== null) {
                     // Jika bukan admin, cek grade
-                    if (page.props.auth.user.student.grade === "SMK") {
+                    if (page.props.auth.user?.student.grade === "SMK") {
                         return '#f36b1d'; // Warna untuk SMK
-                    } else if (page.props.auth.user.student.grade === "SMP") {
+                    } else if (page.props.auth.user?.student.grade === "SMP") {
                         return '#002365'; // Warna untuk SMP
                     }
                 }
