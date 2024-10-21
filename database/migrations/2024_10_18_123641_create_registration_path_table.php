@@ -18,6 +18,7 @@ return new class extends Migration
             $table->dateTime('start_date');
             $table->dateTime('end_date');
             $table->float('registration_price');
+            $table->string('grade');
             $table->timestamps();
         });
     }

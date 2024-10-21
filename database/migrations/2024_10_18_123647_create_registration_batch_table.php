@@ -21,6 +21,9 @@ return new class extends Migration
             $table->string('bank_username');
             $table->string('bank_number_account');
             $table->float('registration_price');
+            $table->string('batch_code');
+            $table->string('type');
+            
 
             $table->foreignId('registration_path_id')->constrained('registration_paths')->cascadeOnDelete();
             $table->timestamps();

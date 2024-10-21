@@ -16,6 +16,25 @@ return new class extends Migration
             $table->string('school_origin');
             $table->string('profile_picture');
             $table->string('status')->default('NOT_REGISTERED');
+            $table->integer('current_step')->default(1);
+            $table->string('step_name')->nullable();
+            $table->string('step_type')->nullable();
+            $table->unsignedBigInteger('return_batch_id')->nullable();
+            $table->unsignedBigInteger('batch_id')->nullable();
+            $table->boolean('purchase_step_status')->default(false);
+            $table->boolean('returning_step_status')->default(false);
+            $table->dateTime("purchase_registration_date")->nullable();
+            $table->dateTime('returning_registration_date')->nullable();
+            $table->string('form_number')->nullable();$table->integer('returning_current_step')->default(1)->nullable();
+            $table->string('returning_step_name')->nullable();
+            $table->string('returning_step_type')->nullable();$table->string('father_name')->nullable();
+            $table->string('mother_name')->nullable();
+            $table->string('father_jobs')->nullable();
+            $table->string('mother_jobs')->nullable();
+            $table->string('father_phone')->nullable();
+            $table->string('mother_phone')->nullable();
+            $table->text('father_address')->nullable();
+            $table->text('mother_address')->nullable();
 
             $table->foreignId('student_id')->constrained('student')->cascadeOnDelete();
             $table->timestamps();

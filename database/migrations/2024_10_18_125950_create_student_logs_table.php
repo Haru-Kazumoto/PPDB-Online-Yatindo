@@ -18,11 +18,13 @@ return new class extends Migration
             $table->string('major_fix');
             $table->string('remark');
             $table->string('registration_type');
+            
 
             
             // $table->foreignId('staging_id')->constrained('staging')->cascadeOnDelete();
             $table->foreignId('batch_id')->constrained('registration_batch')->cascadeOnDelete();
             $table->foreignId('student_id')->constrained('student')->cascadeOnDelete();
+            $table->foreignId('staging_id')->constrained('staging')->after("student_id");
             $table->timestamps();
         });
     }
