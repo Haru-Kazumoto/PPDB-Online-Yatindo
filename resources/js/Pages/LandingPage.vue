@@ -67,7 +67,7 @@
                         </div>
                     </div>
                     <div class="group/card font-bold text-black bg-white rounded-md w-[90%] max-w-[30rem]">
-                        <div class="py-2 text-center text-xl">DAFTAR PPDB SMP</div>
+                        <div class="py-2 text-center text-xl">DAFTAR PPDB SMK</div>
                         <div class="overflow-hidden">
                             <div style="background-image: url(/images/smk.jpg);"
                                 class="h-[18rem] w-full bg-cover bg-no-repeat bg-center transition-all group-hover/card:scale-110 ">
@@ -87,7 +87,7 @@
                         Alur Peendaftaran Kosong
                     </div>
                     <div class="px-10 py-3 bg-white rounded-full text-center">
-                        Alur Pendaftaran SMP
+                        Alur Pendaftaran SMK
                     </div>
                     <div class="bg-white p-24 my-5 rounded-xl">
                         Alur Peendaftaran Kosong
