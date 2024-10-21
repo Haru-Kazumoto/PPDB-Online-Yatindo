@@ -25,8 +25,8 @@ class UserSeeder extends Seeder
         // ]);
         DB::transaction(function () {
             $user = User::create([
-                'username' => 'siswa',
-                'password' => Hash::make('siswa'),
+                'username' => '12345',
+                'password' => Hash::make('123'),
             ]);
 
             $student = Student::create([
@@ -34,7 +34,7 @@ class UserSeeder extends Seeder
                 'phone' => $user->username,
                 'gender' => "LAKI_LAKI",
                 'grade' => "SMK",
-                'religion' => "",
+                'religion' => "islam",
                 'user_id' => $user->id,
             ]);
 

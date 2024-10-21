@@ -31,7 +31,7 @@
                                             <span class="fs-5 fw-semibold">{{ batch.name }}</span>
                                             <div class="d-flex gap-3 align-items-center">
                                                 <n-icon :component="PeopleTeam20Filled" size="25" />
-                                                Pendaftar : 100
+                                                Pendaftar : {{ batch.students_count }}
                                             </div>
                                         </div>
                                     </div>
@@ -65,7 +65,7 @@
                                             <span class="fs-5 fw-semibold">{{ batch.name }}</span>
                                             <div class="d-flex gap-3 align-items-center">
                                                 <n-icon :component="PeopleTeam20Filled" size="25" />
-                                                Pendaftar : 100
+                                                Pendaftar : {{ batch.students_count }}
                                             </div>
                                         </div>
                                     </div>

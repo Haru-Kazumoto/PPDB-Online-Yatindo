@@ -1,6 +1,6 @@
 <template>
     <div v-for="(batch, index) in data.batches" :key="index">
-        <div class="card float-card" style="cursor: pointer;" @click="handleAssign(batch.id, batch.type)">
+        <div class="card float-card" style="cursor: pointer;" @click="handleAssign(batch.id, batch.type, batch.batch_code)">
             <div class="card-body d-flex gap-3 align-items-center">
                 <n-icon :component="DocumentBulletList20Filled" size="40" />
                 <div class="d-flex flex-column">
@@ -35,10 +35,11 @@ const props = defineProps({
     data: Object
 })
 
-const handleAssign = (batch_id, batch_type) => {
+const handleAssign = (batch_id, batch_type, batch_code) => {
     const form = useForm({
         batch_id: batch_id,
-        type: batch_type
+        type: batch_type,
+        batch_code: batch_code,
     })
 
     form.post(route('purchasing.purchase-update'), {

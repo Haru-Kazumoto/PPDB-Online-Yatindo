@@ -18,15 +18,15 @@
                         <div class="d-flex gap-3">
                             <div class="d-flex flex-column align-items-center">
                                 <span>Jumlah Pendaftar</span>
-                                <span>10 Siswa</span>
+                                <span>{{ batch.students_count }} Siswa</span>
+                            </div>
+                            <div class="d-flex flex-column align-items-center">
+                                <span>Jumlah Penerimaan Siswa</span>
+                                <span>{{ batch.max_quota }} Siswa</span>
                             </div>
                             <div class="d-flex flex-column align-items-center">
                                 <span>Jumlah Pendaftar</span>
-                                <span>10 Siswa</span>
-                            </div>
-                            <div class="d-flex flex-column align-items-center">
-                                <span>Jumlah Pendaftar</span>
-                                <span>10 Siswa</span>
+                                <span>{{ batch.accepted_students_count }} Siswa</span>
                             </div>
                         </div>
                     </div>
@@ -48,7 +48,7 @@
                         </template>
                     </n-input>
 
-                    <n-data-table :bordered="false" :columns="columns" size="small"/>
+                    <n-data-table :bordered="false" :columns="columns" size="small" :data="batch.students"/>
                 </div>
             </div>
         </div>
@@ -62,14 +62,7 @@ import { usePage } from '@inertiajs/vue3';
 import { Search16Filled } from "@vicons/fluent";
 import { DataTableColumns, NButton } from 'naive-ui';
 
-interface RowData {
-    name: string;
-    phone: string;
-    registered_date: string;
-    status: string;
-}
-
-function createColumns(): DataTableColumns<RowData> {
+function createColumns() {
     return [
         {
             title: "#",
@@ -81,22 +74,31 @@ function createColumns(): DataTableColumns<RowData> {
         },
         {
             title: "Nama",
-            key: 'name',
+            key: 'fullname',
             width: 200,
+            render(row) {
+                return row.student.fullname
+            }
         },
         {
             title: "Phone",
             key: 'phone',
             width: 150,
+            render(row) {
+                return row.student.phone;
+            }
         },
         {
             title: "Tanggal Mendaftar",
             key: 'registered_date',
             width: 200,
+            render(row) {
+                return row.purchase_registration_date;
+            }
         },
         {
             title: "Status",
-            key: 'status',
+            key: 'step_name',
             width: 200,
         },
         {
@@ -129,6 +131,7 @@ export default defineComponent({
     setup() {
         const page = usePage();
         const batch = page.props.registrationBatch as any;
+        console.log(batch);
 
         return {
             batch,

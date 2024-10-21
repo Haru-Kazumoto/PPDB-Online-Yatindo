@@ -7,19 +7,19 @@
         <table class="mt-4" style="width: 100%;">
             <tr>
                 <td>Bank</td>
-                <td><b>: {{ data.batches.bank_name }}</b></td>
+                <!-- <td><b>: {{ data.batches.bank_name }}</b></td> -->
             </tr>
             <tr>
                 <td>Nominal yang harus dibayarkan</td>
-                <td><b>: Rp. {{ data.batches.registration_price }}</b></td>
+                <!-- <td><b>: Rp. {{ data.batches.registration_price }}</b></td> -->
             </tr>
             <tr>
                 <td>Nomor Rekening</td>
-                <td><b>: {{ data.batches.bank_number_account }}</b></td>
+                <!-- <td><b>: {{ data.batches.bank_number_account }}</b></td> -->
             </tr>
             <tr>
                 <td>Atas Nama</td>
-                <td><b>: {{ data.batches.bank_username }}</b></td>
+                <!-- <td><b>: {{ data.batches.bank_username }}</b></td> -->
             </tr>
             <tr>
                 <td>Status Pembayaran</td>

@@ -21,7 +21,7 @@
                         <br />
                         <tr align="left">
                             <td>Nomor Peserta</td>
-                            <td>: -</td>
+                            <td>: {{ $page.props.auth.user.student.student_info.form_number }}</td>
                         </tr>
                         <tr align="left">
                             <td>Nama Peserta</td>
@@ -58,19 +58,27 @@
                 </div>
             </div>
 
-            <button class="btn btn-success mt-4" disabled>Selesai</button>
+            <button class="btn btn-success mt-4" v-if="$page.props.auth.user.student.student_info.purchase_step_status == false" @click="handleDone">Selesai</button>
         </div>
     </div>
 </template>
 <script setup>
-import { usePage } from '@inertiajs/vue3';
-import { onMounted } from 'vue';
+import { router, usePage } from '@inertiajs/vue3';
+import Swal from 'sweetalert2';
+import { onMounted, ref } from 'vue';
 
 const props = defineProps({
     data: Object
-})
+});
 
-const page = usePage();
+function handleDone() {
+    router.post(route('purchasing.purchase-update'), null, {
+        onSuccess: () => {
+            Swal.fire('Anda telah menyelesaikan step pembelian formulir!', '', 'success');
+        } 
+    });
+}
+
 const download = () => {
     console.log("terdownload");
     var element = $('#download-kartu')[0];

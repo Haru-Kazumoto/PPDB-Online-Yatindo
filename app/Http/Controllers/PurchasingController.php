@@ -8,6 +8,7 @@ use App\Models\Student;
 use App\Models\StudentInfo;
 use App\Models\StudentLogs;
 use App\Models\StudentPayments;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -30,7 +31,7 @@ class PurchasingController extends Controller
         } else if ($current == 2) {
             $data = [
                 'batches' => $batches_query->where('id', $studentInfo->batch_id)->first(),
-                'payments' => StudentPayments::where('batch_id', $studentInfo->batch_id)->get(),
+                'payments' => StudentPayments::where('student_id', $studentInfo->student->id)->get(),
             ];
         } else if ($current == 3 && Auth::user()->student->grade == 'SMK') {
             $data = [
@@ -54,6 +55,15 @@ class PurchasingController extends Controller
     public function updateInfo(Request $request)
     {
         $student_info = Auth::user()->student->studentInfo;
+        $students_in_batch = StudentInfo::where('batch_id', $request->batch_id)
+            ->orderBy('purchase_registration_date', 'asc')
+            ->get();
+
+        // Hitung nomor urut siswa berikutnya
+        $index = $students_in_batch->count() + 1; // Index dimulai dari 1 dan terus meningkat
+        $year = Carbon::now()->year;
+        $batch_code = $request->batch_code;
+        $form_number = sprintf("%d-%s-%03d", $year, $batch_code, $index);
 
         if ($student_info->current_step == 1) {
             $student_info->update([
@@ -61,6 +71,8 @@ class PurchasingController extends Controller
                 'step_name' => 'PILIH GELOMBANG PPDB',
                 'step_type' => $request->type,
                 'batch_id' => $request->batch_id,
+                'purchase_registration_date' => Carbon::now(),
+                'form_number' => $form_number,
             ]);
         } else if ($student_info->current_step == 2) {
             $student_info->update([
@@ -82,6 +94,11 @@ class PurchasingController extends Controller
                 'student_id' => Auth::user()->student->id,
                 'batch_id' => $student_info->batch_id,
                 'staging_id' => 1,
+            ]);
+        } else if($student_info->current_step == 4) {
+            $student_info->update([
+                'step_name' => 'CETAK KARTU PEMBELIAN',
+                'purchase_step_status' => true,
             ]);
         }
 

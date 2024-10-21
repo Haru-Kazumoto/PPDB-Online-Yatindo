@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class RegistrationBatch extends Model
@@ -32,5 +33,10 @@ class RegistrationBatch extends Model
     public function staging(): HasOne
     {
         return $this->hasOne(Staging::class);
+    }
+
+    public function students(): HasMany
+    {
+        return $this->hasMany(StudentInfo::class, 'batch_id'); // Relasi ke model StudentInfo dengan foreign key 'batch_id'
     }
 }
