@@ -29,7 +29,7 @@
                 <n-input placeholder="" size="large" type="password"/>
             </d-flex>
 
-            <n-button type="info" color="#161D6F" size="large" attr-type="submit" >Masuk</n-button>
+            <n-button type="info" color="#161D6F" size="large" attr-type="submit" @click="method" >Masuk</n-button>
 
             <!-- <div class="d-flex align-items-center">
                 <Link href="" >Daftar disini!</Link>
@@ -48,11 +48,17 @@ import Label from '../../Components/Label.vue';
 export default defineComponent({
     components: {
         Head,
-        Label
+        Label,
+        
     },
     setup() {
 
+        function method(){
+            console.log("hello")
+        }
+
         return {
+            method,
         };
     },
     layout: GuestLayout,

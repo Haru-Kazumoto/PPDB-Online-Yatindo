@@ -97,6 +97,7 @@ class PurchasingController extends Controller
             ]);
         } else if($student_info->current_step == 4) {
             $student_info->update([
+                'current_step' => $student_info->current_step + 1,
                 'step_name' => 'CETAK KARTU PEMBELIAN',
                 'purchase_step_status' => true,
             ]);
@@ -110,7 +111,7 @@ class PurchasingController extends Controller
         $payment = new StudentPayments();
         $payment->total = 0;
         $payment->payment_method = $request->payment_method;
-        $payment->status = 1;
+        $payment->status = "PENDING";
         $payment->student_id = Auth::user()->student->id;
         $payment->batch_id = Auth::user()->student->studentInfo->batch_id;
 

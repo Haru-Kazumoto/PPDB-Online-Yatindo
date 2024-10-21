@@ -22,6 +22,16 @@ class Student extends Model
         'birth_date',
         'grade',
         'user_id',
+        'birth_card',
+        'family_card',
+        'father_name' ,
+        'father_phone',
+        'father_jobs' ,
+        'father_address' ,
+        'mother_name' ,
+        'mother_phone' ,
+        'mother_jobs' ,
+        'mother_address' ,
     ];
 
     public function user(): BelongsTo

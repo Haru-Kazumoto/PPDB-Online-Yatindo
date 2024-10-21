@@ -24,23 +24,13 @@
             <tr>
                 <td>Status Pembayaran</td>
                 <td>:
-                    <!-- Jika status null -->
-                    <n-tag v-if="data.payments.filter(data => data.status === 'CONFIRM').status === 'CONFIRM'" :bordered="true" size="large" class="ms-auto" type="success">
+                    <n-tag v-if="data.payments.length == 0" :bordered="true" size="large" class="ms-auto">
+                        Belum Dibayar
+                    </n-tag>
+                    <n-tag v-else :bordered="true" size="large" type="success" class="ms-auto">
                         Pembayaran Terkonfirmasi
                     </n-tag>
-
-                    <!-- Jika status false (menunggu konfirmasi admin) -->
-                    <n-tag v-else-if="data.payments.filter(data => data.status === 'PENDING').status === 'PENDING'" :bordered="true" size="large" class="ms-auto"
-                        type="warning">
-                        Menunggu Konfirmasi Admin
-                    </n-tag>
-
-                    <!-- Jika status true (pembayaran terkonfirmasi) -->
-                    <n-tag v-else :bordered="true" size="large" type="warning" class="ms-auto">
-                        Belum upload
-                    </n-tag>
                 </td>
-
             </tr>
         </table>
 
@@ -110,9 +100,7 @@ import { router, useForm } from '@inertiajs/vue3';
 
 const props = defineProps({
     data: Object
-});
-
-console.log(props.data.payments.filter(data => data.status === 'PENDING').status);
+})
 
 const form = useForm({
     payment_method: "Transfer Bank",
@@ -136,7 +124,7 @@ const onImagePreview = (event) => {
 
 const addPayment = () => {
     form.post(
-        route('purchasing.payment-add'),
+        route('returning.payment-add'),
         {
             preserveScroll: true,
             onSuccess: (page) => {
@@ -160,7 +148,7 @@ const addPayment = () => {
 }
 
 const handleAssign = (batch_id, batch_type) => {
-    router.post(route('purchasing.purchase-update'), {
+    router.post(route('returning.returning-update'), {
         preserveScroll: true,
         onSuccess: (page) => {
             const message = page.props.flash;

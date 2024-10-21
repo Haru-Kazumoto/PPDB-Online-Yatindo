@@ -20,10 +20,15 @@ class StudentInfo extends Model
         'step_name',
         'step_type',
         'purchase_step_status',
-        'returning_step_status',
+        'returning_step_status', 
         'purchase_registration_date',
         'returning_registration_date',
-        'form_number'
+        'form_number',
+        'returning_current_step',
+        'returning_step_name',
+        'returning_step_type',
+        'return_batch_id',
+
     ];
 
     public function student(): BelongsTo

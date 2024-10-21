@@ -67,6 +67,13 @@ Route::middleware(['auth','web'])->group(function() {
     // Returning
     Route::name('returning')->prefix('returning')->group(function() {
         Route::get('', [ReturningController::class, 'index'])->name('.index');
+        Route::post('/purchase-update', [ReturningController::class, 'updateInfo'])->name('.returning-update');
+        Route::post('/payment-add', [ReturningController::class, 'addPayment'])->name('.payment-add');
+        Route::post('/profile-add', [ReturningController::class, 'addProfile'])->name('.profile-add');
+        Route::post('/family-card-add', [ReturningController::class, 'addFamilyCard'])->name('.family-card-add');
+        Route::post('/birth-card-add', [ReturningController::class, 'addBirthCertificate'])->name('.birth-card-add');
+//         addFamilyCard
+// 
     });
 
 });

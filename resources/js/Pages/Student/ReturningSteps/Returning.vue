@@ -1,6 +1,6 @@
 <template>
     <div v-for="(batch, index) in data.batches" :key="index">
-        <div class="card float-card" style="cursor: pointer;"
+        <div class="card float-card mb-3" style="cursor: pointer;"
             @click="handleAssign(batch.id, batch.type, batch.batch_code, batch.name)">
             <div class="card-body d-flex gap-3 align-items-center">
                 <n-icon :component="DocumentBulletList20Filled" size="40" />
@@ -31,21 +31,18 @@
 <script setup>
 import { router, useForm } from '@inertiajs/vue3';
 import { DocumentBulletList20Filled } from '@vicons/fluent';
-import { useNotification } from 'naive-ui';
 import Swal from 'sweetalert2';
 
 const props = defineProps({
     data: Object
-});
-
+})
 
 const handleAssign = (batch_id, batch_type, batch_code, batch_name) => {
-    const nofitication = useNotification();
     const form = useForm({
         batch_id: batch_id,
         type: batch_type,
         batch_code: batch_code,
-    })
+    });
 
     Swal.fire({
         icon: "question",
@@ -53,8 +50,8 @@ const handleAssign = (batch_id, batch_type, batch_code, batch_name) => {
         showCancelButton: true,
         text: "Anda tidak akan bisa memilih yang lain lagi jika sudah konfirmasi."
     }).then((result) => {
-        if(result.isConfirmed){
-            form.post(route('purchasing.purchase-update'), {
+        if (result.isConfirmed) {
+            form.post(route('returning.returning-update'), {
                 preserveScroll: true,
                 onSuccess: (page) => {
                     const message = page.props.flash;
@@ -63,12 +60,12 @@ const handleAssign = (batch_id, batch_type, batch_code, batch_name) => {
                             preserveScroll: true,
                             only: ['data'],
                         });
-                        
-                        
-                        nofitication.success({title: message.success});
+
+
+                        console.log(message.success);
                     }
                     if (message.failed) {
-                        nofitication.success({title: message.failed});
+                        console.log(message.failed);
                     }
                 },
             });

@@ -25,7 +25,7 @@
     </div>
 </template>
 <script setup>
-import { useForm } from '@inertiajs/vue3';
+import { useForm, router } from '@inertiajs/vue3';
 import { onMounted } from 'vue';
 
 

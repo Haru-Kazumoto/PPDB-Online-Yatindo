@@ -27,4 +27,24 @@ export const bankOptions = [
     {label: "BNI", value: "BNI"},
     {label: "BRI", value: "BRI"},
     {label: "MANDIRI", value: "MANDIRI"},
+];
+
+export const genderOptions = [
+    {label: "LAKI LAKI", value: "LAKI_LAKI"},
+    {label: "PEREMPUAN", value: "PEREMPUAN"},
+];
+
+export const agamaOptions = [
+    {label: "ISLAM", value: "ISLAM"},
+    {label: "KRISTEN", value: "KRISTEN"},
+    {label: "KATOLIK", value: "KATOLIK"},
+    {label: "HINDU", value: "HINDU"},
+    {label: "BUDDHA", value: "BUDDHA"},
+];
+
+export const majorOptions = [
+    {label: "TJKT (Teknik Jaringan Komputer dan Telekomunikasi)", value: "TJKT"},
+    {label: "TE (Teknik Elekro)", value: "TE"},
+    {label: "TO (Teknik Otomotif)", value: "TO"},
+    {label: "AK (Akuntansi Keuangan", value: "AK"},
 ]
