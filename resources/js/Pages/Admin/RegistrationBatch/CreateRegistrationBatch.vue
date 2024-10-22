@@ -25,12 +25,16 @@
                             <n-input placeholder="" size="large" v-model:value="form.max_quota"
                                 @input="(value) => form.max_quota = value.replace(/\D/g, '')" />
                         </div>
-                        <div class="col-12 col-md-6 col-lg-6">
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <Label label="Sub tipe gelombang" required />
+                            <n-select placeholder="" size="large" v-model:value="form.sub_type" :options="subTipeJalurOptions"/>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
                             <Label label="Waktu Dibuka" required />
                             <n-date-picker value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder=""
                                 size="large" v-model:formatted-value="form.start_date" />
                         </div>
-                        <div class="col-12 col-md-6 col-lg-6">
+                        <div class="col-12 col-md-6 col-lg-4">
                             <Label label="Waktu Ditutup" required />
                             <n-date-picker value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder=""
                                 size="large" v-model:formatted-value="form.end_date" />
@@ -85,7 +89,7 @@ export default defineComponent({
     },
     setup() {
         const page = usePage();
-    const path = page.props.registrationPath;
+        const path = page.props.registrationPath;
 
         const form = useForm({
             name: '',
@@ -98,7 +102,9 @@ export default defineComponent({
             registration_price: null,
             batch_code: '',
             registration_path_id: path.id,
-            
+            sub_type: '',
+            grade: path.grade,
+            type: path.type,
         });
 
         // Submit form

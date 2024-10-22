@@ -13,7 +13,9 @@
                     <div class="d-flex bg-white p-2 rounded-circle">
                         <n-icon :component="Person32Filled" color="black"/>
                     </div>
-                    <span class="d-none d-md-flex">{{ $page.props.auth.user?.username }}</span>
+                    <span class="d-none d-md-flex">{{ 
+                        $page.props.auth.user.is_admin ? $page.props.auth.user?.fullname : $page.props.auth.user.student.fullname
+                    }}</span>
                     <n-icon :component="ChevronDown12Regular"/>
                 </div>
             </n-dropdown>

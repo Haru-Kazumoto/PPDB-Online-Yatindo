@@ -33,32 +33,38 @@
                         </tr>
                         <tr align="left">
                             <td>Alamat</td>
-                            <td>: {{ $page.props.auth.user.student.student_address.address }}</td>
+                            <td>: {{ $page.props.auth.user.student.student_address ?
+                                $page.props.auth.user.student.student_address.address : '' }}</td>
                         </tr>
                         <tr align="left">
                             <td>Asal Sekolah</td>
-                            <td>: {{ $page.props.auth.user.student.student_info.school_origin }}</td>
+                            <td>: {{ $page.props.auth.user.student.student_info ?
+                                $page.props.auth.user.student.student_info.school_origin : '' }}</td>
                         </tr>
-
 
                         <br />
                         <tr align="left" style="border-top: 5px solid orange;">
                             <td>Jalur</td>
-                            <td>: {{ data.jalur.name }}</td>
+                            <td>: {{ data.jalur ? data.jalur.name : '' }}</td>
                         </tr>
-                        <tr align="left">
-                            <td>Pilihan Jurusan 1</td>
-                            <td>: {{ data.jurusan.major_fix }}</td>
-                        </tr>
-                        <tr align="left">
-                            <td>Pilihan Jurusan 2</td>
-                            <td>: {{ data.jurusan.major_estimation }}</td>
-                        </tr>
+                        <div v-if="$page.props.auth.user.student.grade === 'SMK'">
+                            <tr align="left">
+                                <td>Pilihan Jurusan 1</td>
+                                <td>: {{ data.jurusan ? data.jurusan.major_fix : '' }}</td>
+                            </tr>
+                            <tr align="left">
+                                <td>Pilihan Jurusan 2</td>
+                                <td>: {{ data.jurusan ? data.jurusan.major_estimation : '' }}</td>
+                            </tr>
+                        </div>
+
                     </table>
                 </div>
             </div>
 
-            <button class="btn btn-success mt-4" v-if="$page.props.auth.user.student.student_info.purchase_step_status == false" @click="handleDone">Selesai</button>
+            <button class="btn btn-success mt-4"
+                v-if="$page.props.auth.user.student.student_info.purchase_step_status == false"
+                @click="handleDone">Selesai</button>
         </div>
     </div>
 </template>
@@ -75,7 +81,7 @@ function handleDone() {
     router.post(route('purchasing.purchase-update'), null, {
         onSuccess: () => {
             Swal.fire('Anda telah menyelesaikan step pembelian formulir!', '', 'success');
-        } 
+        }
     });
 }
 

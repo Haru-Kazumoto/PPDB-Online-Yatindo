@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('student_info', function (Blueprint $table) {
             $table->id();
             $table->string('school_origin');
-            $table->string('profile_picture');
+            $table->string('profile_picture')->nullable();
             $table->string('status')->default('NOT_REGISTERED');
             $table->integer('current_step')->default(1);
             $table->string('step_name')->nullable();
@@ -28,13 +28,7 @@ return new class extends Migration
             $table->string('form_number')->nullable();$table->integer('returning_current_step')->default(1)->nullable();
             $table->string('returning_step_name')->nullable();
             $table->string('returning_step_type')->nullable();$table->string('father_name')->nullable();
-            $table->string('mother_name')->nullable();
-            $table->string('father_jobs')->nullable();
-            $table->string('mother_jobs')->nullable();
-            $table->string('father_phone')->nullable();
-            $table->string('mother_phone')->nullable();
-            $table->text('father_address')->nullable();
-            $table->text('mother_address')->nullable();
+            
 
             $table->foreignId('student_id')->constrained('student')->cascadeOnDelete();
             $table->timestamps();

@@ -16,13 +16,31 @@ use Inertia\Inertia;
 
 class PurchasingController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $studentInfo = Auth::user()->student->studentInfo;
+        $studentInfo = $request->user()->student->studentInfo;
         $current = $studentInfo->current_step;
         $data = [];
 
         $batches_query = RegistrationBatch::where('type', 'PEMBELIAN');
+
+        $user = $request->user();
+
+        // Cek apakah user memiliki relasi student dan grade
+        if ($user->student) {
+            $grade = $user->student->grade;
+
+            // Jika grade user adalah SMP, filter batch hanya untuk tipe SMP
+            if ($grade == 'SMP') {
+                $batches_query->whereHas('registrationPaths', function($query) {
+                    $query->where('grade', 'SMP');
+                });
+            } else {
+                $batches_query->whereHas('registrationPaths', function($query) {
+                    $query->where('grade', 'SMK');
+                });
+            }
+        }
 
         if ($current == 1) {
             $data = [
@@ -35,7 +53,10 @@ class PurchasingController extends Controller
             ];
         } else if ($current == 3 && Auth::user()->student->grade == 'SMK') {
             $data = [
-                'batches' => $batches_query->where('id', $studentInfo->batch_id)->first()
+                'batches' => $batches_query->where('id', $studentInfo->batch_id)->first(),
+                'payments' => StudentPayments::where('student_id', $studentInfo->student->id)
+                    ->where('batch_id', $studentInfo->batch_id)
+                    ->first(),
             ];
         } else {
             $batches = $batches_query->where('id', $studentInfo->batch_id)->first();
@@ -56,52 +77,63 @@ class PurchasingController extends Controller
     {
         $student_info = Auth::user()->student->studentInfo;
         $students_in_batch = StudentInfo::where('batch_id', $request->batch_id)
-            ->orderBy('purchase_registration_date', 'asc')
-            ->get();
+            ->orderBy('purchase_registration_date', 'asc');
+        $batch = RegistrationBatch::where('id', $request->batch_id)->first();
 
         // Hitung nomor urut siswa berikutnya
-        $index = $students_in_batch->count() + 1; // Index dimulai dari 1 dan terus meningkat
+        $index = $students_in_batch->get()->count() + 1; // Index dimulai dari 1 dan terus meningkat
         $year = Carbon::now()->year;
         $batch_code = $request->batch_code;
         $form_number = sprintf("%d-%s-%03d", $year, $batch_code, $index);
 
-        if ($student_info->current_step == 1) {
-            $student_info->update([
-                'current_step' => $student_info->current_step + 1,
-                'step_name' => 'PILIH GELOMBANG PPDB',
-                'step_type' => $request->type,
-                'batch_id' => $request->batch_id,
-                'purchase_registration_date' => Carbon::now(),
-                'form_number' => $form_number,
-            ]);
-        } else if ($student_info->current_step == 2) {
-            $student_info->update([
-                'current_step' => $student_info->current_step + 1,
-                'step_name' => 'PEMBAYARAN FORMULIR',
-            ]);
-        } else if ($student_info->current_step == 3) {
-            $student_info->update([
-                'current_step' => $student_info->current_step + 1,
-                'step_name' => 'PEMILIHAN JURUSAN',
-            ]);
+        DB::transaction(function() use (
+            $form_number,
+            $student_info,
+            $request,
+            $students_in_batch,
+            $batch
+        ) {
+            if ($student_info->current_step == 1) {
+                if ($students_in_batch->get()->count() == $batch->max_quota) {
+                    return back()->with('failed', 'Kuota gelombang sudah penuh!');
+                }
 
-            StudentLogs::create([
-                'status' => 0,
-                'major_estimation' => $request->major_estimation,
-                'major_fix' => $request->major_fix,
-                'remark' => '',
-                'registration_type' => '',
-                'student_id' => Auth::user()->student->id,
-                'batch_id' => $student_info->batch_id,
-                'staging_id' => 1,
-            ]);
-        } else if($student_info->current_step == 4) {
-            $student_info->update([
-                'current_step' => $student_info->current_step + 1,
-                'step_name' => 'CETAK KARTU PEMBELIAN',
-                'purchase_step_status' => true,
-            ]);
-        }
+                $student_info->update([
+                    'current_step' => $student_info->current_step + 1,
+                    'step_name' => 'PILIH GELOMBANG PPDB',
+                    'step_type' => $request->type,
+                    'batch_id' => $request->batch_id,
+                    'purchase_registration_date' => Carbon::now(),
+                    'form_number' => $form_number,
+                ]);
+            } else if ($student_info->current_step == 2) {
+                $student_info->update([
+                    'current_step' => $student_info->current_step + 1,
+                    'step_name' => 'PEMBAYARAN FORMULIR',
+                ]);
+            } else if ($student_info->current_step == 3) {
+                $student_info->update([
+                    'current_step' => $student_info->current_step + 1,
+                    'step_name' => 'PEMILIHAN JURUSAN',
+                ]);
+
+                StudentLogs::create([
+                    'status' => 0,
+                    'major_estimation' => $request->major_estimation,
+                    'major_fix' => $request->major_fix,
+                    'remark' => '',
+                    'registration_type' => '',
+                    'student_id' => Auth::user()->student->id,
+                    'batch_id' => $student_info->batch_id,
+                ]);
+            } else if($student_info->current_step == 4) {
+                $student_info->update([
+                    'current_step' => $student_info->current_step + 1,
+                    'step_name' => 'CETAK KARTU PEMBELIAN',
+                    'purchase_step_status' => true,
+                ]);
+            }
+        });
 
         return back()->with('success', 'Berhasil daftar');
     }
@@ -114,6 +146,10 @@ class PurchasingController extends Controller
         $payment->status = "PENDING";
         $payment->student_id = Auth::user()->student->id;
         $payment->batch_id = Auth::user()->student->studentInfo->batch_id;
+        $payment->nominal = $request->nominal;
+        $payment->bank_name = $request->bank_name;
+        $payment->bank_number = $request->bank_number;
+        $payment->account_user_bank = $request->account_user_bank;
 
         if ($request->hasFile('payment_image')) {
             $image = $request->file('payment_image');
@@ -129,11 +165,6 @@ class PurchasingController extends Controller
 
         return back()->with('success', 'Berhasil menambahkan pembayaran');
     }
-
-    // public function showPurchase()
-    // {
-    //     return Inertia::render('Student/PurchasingSteps/Pay');
-    // }
 
     private function generateRandomString($length = 8)
     {

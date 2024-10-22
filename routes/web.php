@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\ParticipantController;
@@ -53,6 +54,13 @@ Route::middleware(['auth','web'])->group(function() {
     Route::name('participant')->prefix('participants')->group(function() {
         Route::get('', [ParticipantController::class, 'indexBatches'])->name('.index-batch');
         Route::get('list/{registrationBatch}', [ParticipantController::class, 'detailBatchesAndParticipants'])->name('.list');
+        Route::get('return-list/{registrationBatch}', [ParticipantController::class, 'detailReturnBatchesAndParticipants'])->name('.list-returning');
+        Route::get('participant/{student}',[ParticipantController::class, 'showParticipant'])->name('.detail-participant');
+        Route::get('return-participant/{student}',[ParticipantController::class, 'showReturnParticipant'])->name('.detail-return-participant');
+        Route::post('confirm-payment/{studentPayments}', [ParticipantController::class, 'confirmPayment'])->name('.confirm-payment');
+        Route::patch('change-credential/{user_id}',[RegisteredUserController::class, 'changePassword'])->name('.change-credential');    
+
+        Route::post('get-participants/{batch_id}',[ParticipantController::class,'exportPurchaseParticipant'])->name('.get-participants');
     });
 
     // Purchasing

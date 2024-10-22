@@ -51,7 +51,8 @@
                                                 <n-icon :component="Delete20Filled" />
                                             </template>
                                         </n-button>
-                                        <n-button color="#002365" circle size="large" @click.stop="handleUpdate(path.id)">
+                                        <n-button color="#002365" circle size="large"
+                                            @click.stop="handleUpdate(path.id)">
                                             <template #icon>
                                                 <n-icon :component="Edit32Filled" />
                                             </template>
@@ -75,7 +76,8 @@
                     <div v-else>
                         <div class="d-flex" v-for="(path, index) in filterRegistrationPathWhereGrade('SMP')"
                             :key="index">
-                            <div class="card shadow  flex-grow-1 m-3 float-card">
+                            <div class="card shadow  flex-grow-1 m-3 float-card"
+                                @click="router.visit(route('registration-path.detail', path.id))">
                                 <div class="card-body align-items-center d-flex" style="cursor: pointer;">
                                     <div class="card-title d-flex align-items-center gap-3">
                                         <div class="d-flex p-2 rounded-circle" style="background-color: #002365;">
@@ -83,11 +85,11 @@
                                                 color="white" />
                                         </div>
                                         <div class="d-flex flex-column">
-                                            <span class="fs-5 fw-semibold">PENGEMBALIAN FORMULIR</span>
+                                            <span class="fs-5 fw-semibold">{{ path.name }}</span>
                                             <div class="d-flex gap-3">
-                                                <span>23 Jan 2024, 00.00</span>
+                                                <span>{{ path.start_date }}</span>
                                                 -
-                                                <span>23 Jan 2024, 00.00</span>
+                                                <span>{{ path.end_date }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -97,7 +99,8 @@
                                                 <n-icon :component="Delete20Filled" />
                                             </template>
                                         </n-button>
-                                        <n-button color="#002365" circle size="large" @click.stop="handleUpdate(path.id)">
+                                        <n-button color="#002365" circle size="large"
+                                            @click.stop="handleUpdate(path.id)">
                                             <template #icon>
                                                 <n-icon :component="Edit32Filled" />
                                             </template>

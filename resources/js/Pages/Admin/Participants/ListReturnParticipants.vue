@@ -18,7 +18,7 @@
                         <div class="d-flex gap-3">
                             <div class="d-flex flex-column align-items-center">
                                 <span>Jumlah Pendaftar</span>
-                                <span>{{ batch.students_count }} Siswa</span>
+                                <span>{{ batch.return_students_count }} Siswa</span>
                             </div>
                             <div class="d-flex flex-column align-items-center">
                                 <span>Jumlah Penerimaan Siswa</span>
@@ -35,7 +35,7 @@
                 <div class="card-title d-flex align-items-center">
                     <span class="fw-semibold">Data Pendaftar</span>
 
-                    <n-button size="medium" class="ms-auto" color="#002365" @click="handleExportExcel(batch.id)">Export Excel</n-button>
+                    <n-button size="medium" class="ms-auto" color="#002365">Export Excel</n-button>
                 </div>
                 <div class="d-flex flex-column">
                     <n-input placeholder="Cari nama siswa" class="w-25" @input="handleSearchQuery"
@@ -59,7 +59,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, h, reactive, ref } from 'vue'
+import { defineComponent, h,reactive,ref } from 'vue'
 import Back from '../../../Components/Back.vue';
 import { usePage, router } from '@inertiajs/vue3';
 import { Search16Filled } from "@vicons/fluent";
@@ -116,7 +116,7 @@ function createColumns() {
                             type: 'info',
                             size: 'small',
                             onClick: () => {
-                                router.get(route('participant.detail-participant', row.student.id));
+                                router.get(route('participant.detail-return-participant', row.student.id));
                             }
                         },
                         { default: () => "Detail" }
@@ -153,7 +153,7 @@ export default defineComponent({
         function handleSearchQuery() {
             if (debounceTimer) clearTimeout(debounceTimer);
             debounceTimer = setTimeout(() => {
-                router.get(route('participant.list', batch.id), {
+                router.get(route('participant.list-returning', batch.id), {
                     page: pagination.current_page,
                     search_name: search_name.value,
                 }, {
@@ -164,21 +164,16 @@ export default defineComponent({
         };
 
         function handlePageChange(page: number) {
-            router.get(route('participant.list', batch.id), {
+            router.get(route('participant.list-returning', batch.id), {
                 page,
                 search_name: search_name.value
             }, { preserveState: true }); // Request data for the selected page
-        }
-
-        function handleExportExcel(batch_id: number) {
-            router.post(route('participant.get-participants',batch_id));
         }
 
         return {
             batch,
             columns: createColumns(),
             handleSearchQuery,
-            handleExportExcel,
             handlePageChange,
             Search16Filled,
             router,
@@ -191,5 +186,3 @@ export default defineComponent({
     }
 })
 </script>
-
-<style scoped></style>

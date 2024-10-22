@@ -1,125 +1,142 @@
 <template>
-    <div class="p-2">
-        <div class="d-flex flex-column">
-            <button class="btn btn-md w-25 text-white" style="background-color: #002365;" @click="showModal">Upload pas
-                foto 3x4 disini. (DIBUTUHKAN)</button>
-            <n-image v-if="imagePreview" :src="imagePreview" class="img-fluid" width="200" />
+    <div v-if="!visible">
+        <div class="d-flex flex-column align-items-center">
+            <n-image preview-disabled src="/images/waiting.png" width="300" />
+            <span class="fw-semibold">Pembayaran harus di verifikasi oleh admin, silahkan menunggu di verifikasi</span>
         </div>
+    </div>
+    <div v-else>
+        <div class="p-2">
+            <div class="d-flex flex-column">
+                <button class="btn btn-md w-25 text-white" style="background-color: #002365;" @click="showModal">Upload
+                    pas
+                    foto 3x4 disini. (DIBUTUHKAN)</button>
+                <n-image v-if="imagePreview" :src="imagePreview" class="img-fluid" width="200" />
+            </div>
+            <div class="row g-3 my-3">
+                <div class="col-6 d-flex flex-column gap-1">
+                    <Label label="NISN" required />
+                    <n-input placeholder="" size="large" v-model:value="bioForm.nisn"
+                        @input="(value) => bioForm.nisn = value.replace(/\D/g, '')" />
+                </div>
+                <div class="col-6 d-flex flex-column gap-1">
+                    <Label label="Nomor Whatsapp" required />
+                    <n-input placeholder="" size="large" v-model:value="bioForm.phone"
+                        @input="(value) => bioForm.phone = value.replace(/\D/g, '')" />
+                </div>
+                <div class="col-6 d-flex flex-column gap-1">
+                    <Label label="Nama Lengkap" required />
+                    <n-input placeholder="" size="large" v-model:value="bioForm.fullname" />
+                </div>
+                <div class="col-6 d-flex flex-column gap-1">
+                    <Label label="Nama Panggilan" required />
+                    <n-input placeholder="" size="large" v-model:value="bioForm.surname" />
+                </div>
+                <div class="col-6 d-flex flex-column gap-1">
+                    <Label label="Gender" required />
+                    <n-select placeholder="" size="large" v-model:value="bioForm.gender" :options="genderOptions" />
+                </div>
+                <div class="col-6 d-flex flex-column gap-1">
+                    <Label label="Agama" required />
+                    <n-select placeholder="" size="large" v-model:value="bioForm.religion" :options="agamaOptions"
+                        @input="(value) => bioForm.religion = value.replace('_', ' ')" />
+                </div>
+                <div class="col-6 d-flex flex-column gap-1">
+                    <Label label="Tempat Lahir" required />
+                    <n-input placeholder="" size="large" v-model:value="bioForm.birth_place" />
+                </div>
+                <div class="col-6 d-flex flex-column gap-1">
+                    <Label label="Tanggal Lahir" required />
+                    <n-date-picker value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="" id="field5"
+                        size="large" v-model:formatted-value="bioForm.birth_date" />
+                </div>
+                <div class="col-6 d-flex flex-column gap-1">
+                    <Label label="Alamat" required />
+                    <n-input type="textarea" placeholder="" size="large" v-model:value="bioForm.address" />
+                </div>
+                <div class="col-6 d-flex flex-column gap-1">
+                    <Label label="Provinsi" required />
+                    <n-input placeholder="" size="large" v-model:value="bioForm.province" />
+                </div>
+                <div class="col-6 d-flex flex-column gap-1">
+                    <Label label="Kota/Kabupaten" required />
+                    <n-input placeholder="" size="large" v-model:value="bioForm.city" />
+                </div>
+                <div class="col-6 d-flex flex-column gap-1">
+                    <Label label="Kecamatan" required />
+                    <n-input placeholder="" size="large" v-model:value="bioForm.district" />
+                </div>
+                <div class="col-6 d-flex flex-column gap-1">
+                    <Label label="Kelurahan" required />
+                    <n-input placeholder="" size="large" v-model:value="bioForm.sub_district" />
+                </div>
+                <div class="col-6 d-flex flex-column gap-1">
+                    <Label label="Kode POS" required />
+                    <n-input placeholder="" size="large" v-model:value="bioForm.postal_code"
+                        @input="(value) => bioForm.postal_code = value.replace(/\D/g, '')" />
+                </div>
+                <div class="col-6 d-flex flex-column gap-1">
+                    <Label label="Asal Sekolah" required />
+                    <n-input placeholder="" size="large" v-model:value="bioForm.school_origin" />
+                </div>
+            </div>
+        </div>
+
+        <span class="fs-3 fw-semibold">Informasi Orang Tua</span>
         <div class="row g-3 my-3">
             <div class="col-6 d-flex flex-column gap-1">
-                <Label label="NISN" required />
-                <n-input placeholder="" size="large" v-model:value="bioForm.nisn" @input="(value) => bioForm.nisn = value.replace(/\D/g, '')" />
+                <Label label="Nama Ayah" required />
+                <n-input placeholder="" size="large" v-model:value="bioForm.father_name" />
             </div>
             <div class="col-6 d-flex flex-column gap-1">
-                <Label label="Nomor Whatsapp" required />
-                <n-input placeholder="" size="large" v-model:value="bioForm.phone" @input="(value) => bioForm.phone = value.replace(/\D/g, '')"/>
+                <Label label="Nama Ibu" required />
+                <n-input placeholder="" size="large" v-model:value="bioForm.mother_name" />
             </div>
             <div class="col-6 d-flex flex-column gap-1">
-                <Label label="Nama Lengkap" required />
-                <n-input placeholder="" size="large" v-model:value="bioForm.fullname" />
+                <Label label="Pekerjaan Ayah" required />
+                <n-input placeholder="" size="large" v-model:value="bioForm.father_jobs" />
             </div>
             <div class="col-6 d-flex flex-column gap-1">
-                <Label label="Nama Panggilan" required />
-                <n-input placeholder="" size="large" v-model:value="bioForm.surname"  />
+                <Label label="Pekerjaan Ibu" required />
+                <n-input placeholder="" size="large" v-model:value="bioForm.mother_jobs" />
             </div>
             <div class="col-6 d-flex flex-column gap-1">
-                <Label label="Gender" required />
-                <n-select placeholder="" size="large" v-model:value="bioForm.gender" :options="genderOptions" />
+                <Label label="Nomor Telepon Ayah" required />
+                <n-input placeholder="" size="large" v-model:value="bioForm.father_phone" />
             </div>
             <div class="col-6 d-flex flex-column gap-1">
-                <Label label="Agama" required />
-                <n-select placeholder="" size="large" v-model:value="bioForm.religion" :options="agamaOptions" @input="(value) => bioForm.religion = value.replace('_',' ')"/>
+                <Label label="Nomor Telepon Ibu" required />
+                <n-input placeholder="" size="large" v-model:value="bioForm.mother_phone" />
             </div>
             <div class="col-6 d-flex flex-column gap-1">
-                <Label label="Tempat Lahir" required />
-                <n-input placeholder="" size="large" v-model:value="bioForm.birth_place" />
+                <Label label="Alamat Ayah" required />
+                <n-input type="textarea" placeholder="" size="large" v-model:value="bioForm.father_address" />
             </div>
             <div class="col-6 d-flex flex-column gap-1">
-                <Label label="Tanggal Lahir" required />
-                <n-date-picker value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="" id="field5"
-                    size="large" v-model:formatted-value="bioForm.birth_date" />
+                <Label label="Alamat IBu" required />
+                <n-input type="textarea" placeholder="" size="large" v-model:value="bioForm.mother_address" />
             </div>
-            <div class="col-6 d-flex flex-column gap-1">
-                <Label label="Alamat" required />
-                <n-input type="textarea" placeholder="" size="large" v-model:value="bioForm.address" />
-            </div>
-            <div class="col-6 d-flex flex-column gap-1">
-                <Label label="Provinsi" required />
-                <n-input placeholder="" size="large" v-model:value="bioForm.province" />
-            </div>
-            <div class="col-6 d-flex flex-column gap-1">
-                <Label label="Kota/Kabupaten" required />
-                <n-input placeholder="" size="large" v-model:value="bioForm.city" />
-            </div>
-            <div class="col-6 d-flex flex-column gap-1">
-                <Label label="Kecamatan" required />
-                <n-input placeholder="" size="large" v-model:value="bioForm.district" />
-            </div>
-            <div class="col-6 d-flex flex-column gap-1">
-                <Label label="Kelurahan" required />
-                <n-input placeholder="" size="large" v-model:value="bioForm.sub_district" />
-            </div>
-            <div class="col-6 d-flex flex-column gap-1">
-                <Label label="Kode POS" required />
-                <n-input placeholder="" size="large" v-model:value="bioForm.postal_code" @input="(value) => bioForm.postal_code = value.replace(/\D/g, '')" />
-            </div>
-            <div class="col-6 d-flex flex-column gap-1">
-                <Label label="Asal Sekolah" required />
-                <n-input placeholder="" size="large" v-model:value="bioForm.school_origin" />
+            <div class="d-flex gap-3">
+                <div class="d-flex flex-column gap-2">
+                    <button class="btn btn-md  text-white" style="background-color: #002365;"
+                        @click="showModalFamilyCard">
+                        Upload Kartu Keluarga disini. (DIBUTUHKAN)</button>
+                    <n-image v-if="imageFamilyCardPreview" :src="imageFamilyCardPreview" class="img-fluid"
+                        width="200" />
+                </div>
+                <div class="d-flex flex-column gap-2">
+                    <button class="btn btn-md text-white" style="background-color: #002365;"
+                        @click="showModalBirthCard">
+                        Upload Akte Kelahiran disini. (DIBUTUHKAN)</button>
+                    <n-image v-if="imageBirthCardPreview" :src="imageBirthCardPreview" class="img-fluid" width="200" />
+                </div>
             </div>
         </div>
-    </div>
 
-    <span class="fs-3 fw-semibold">Informasi Orang Tua</span>
-    <div class="row g-3 my-3">
-        <div class="col-6 d-flex flex-column gap-1">
-            <Label label="Nama Ayah" required />
-            <n-input placeholder="" size="large" v-model:value="bioForm.father_name" />
+        <div class="d-flex my-3 w-100">
+            <n-button type="info" class=" mt-5 w-100" color="#f36b1d" size="large" @click="handleSubmitBiodata">SUBMIT
+                BIODATA</n-button>
         </div>
-        <div class="col-6 d-flex flex-column gap-1">
-            <Label label="Nama Ibu" required />
-            <n-input placeholder="" size="large" v-model:value="bioForm.mother_name" />
-        </div>
-        <div class="col-6 d-flex flex-column gap-1">
-            <Label label="Pekerjaan Ayah" required />
-            <n-input placeholder="" size="large" v-model:value="bioForm.father_jobs" />
-        </div>
-        <div class="col-6 d-flex flex-column gap-1">
-            <Label label="Pekerjaan Ibu" required />
-            <n-input placeholder="" size="large" v-model:value="bioForm.mother_jobs" />
-        </div>
-        <div class="col-6 d-flex flex-column gap-1">
-            <Label label="Nomor Telepon Ayah" required />
-            <n-input placeholder="" size="large" v-model:value="bioForm.father_phone" />
-        </div>
-        <div class="col-6 d-flex flex-column gap-1">
-            <Label label="Nomor Telepon Ibu" required />
-            <n-input placeholder="" size="large" v-model:value="bioForm.mother_phone" />
-        </div>
-        <div class="col-6 d-flex flex-column gap-1">
-            <Label label="Alamat Ayah" required />
-            <n-input type="textarea" placeholder="" size="large" v-model:value="bioForm.father_address" />
-        </div>
-        <div class="col-6 d-flex flex-column gap-1">
-            <Label label="Alamat IBu" required />
-            <n-input type="textarea" placeholder="" size="large" v-model:value="bioForm.mother_address" />
-        </div>
-        <div class="d-flex gap-3">
-            <div class="d-flex flex-column gap-2">
-                <button class="btn btn-md  text-white" style="background-color: #002365;" @click="showModalFamilyCard">
-                    Upload Kartu Keluarga disini. (DIBUTUHKAN)</button>
-                <n-image v-if="imageFamilyCardPreview" :src="imageFamilyCardPreview" class="img-fluid" width="200" />
-            </div>
-            <div class="d-flex flex-column gap-2">
-                <button class="btn btn-md text-white" style="background-color: #002365;" @click="showModalBirthCard">
-                    Upload Akte Kelahiran disini. (DIBUTUHKAN)</button>
-                <n-image v-if="imageBirthCardPreview" :src="imageBirthCardPreview" class="img-fluid" width="200" />
-            </div>
-        </div>
-    </div>
-
-    <div class="d-flex my-3 w-100">
-        <n-button type="info" class=" mt-5 w-100" color="#f36b1d" size="large" @click="handleSubmitBiodata">SUBMIT BIODATA</n-button>
     </div>
 
     <!-- Modal -->
@@ -222,6 +239,12 @@ const props = defineProps({
 });
 
 const page = usePage();
+
+const visible = computed(() => {
+    const status = props.data.payment.status;
+    console.log('Computed Visible:', status !== "PENDING");
+    return status !== "PENDING";
+});
 
 const form = useForm({
     profile_image: null,

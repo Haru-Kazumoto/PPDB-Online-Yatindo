@@ -7,11 +7,11 @@
 
             <div class="d-flex flex-column gap-1">
                 <Label label="Username" required sizeForm="large" />
-                <n-input placeholder="" size="large"  v-model:value="form.username"/>
+                <n-input placeholder="" size="large" v-model:value="form.username" />
             </div>
             <div class="d-flex flex-column gap-1">
                 <Label label="Password" required sizeForm="large" />
-                <n-input placeholder="" size="large" v-model:value="form.password" />
+                <n-input type="password" placeholder="" show-password-on="click" v-model:value="form.password"/>
             </div>
 
             <n-button type="info" color="#161D6F" size="large" attr-type="submit" @click="handleLogin">Masuk</n-button>

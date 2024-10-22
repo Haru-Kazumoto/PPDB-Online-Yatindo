@@ -5,7 +5,7 @@
                 <div class="card-body text-white d-flex align-items-center">
                     <n-image src="/images/student.png" width="300" preview-disabled/>
                     <div class="d-flex flex-column">
-                        <span class="fs-2 fw-semibold">Halo {{ $page.props.auth.user.username }}, Selamat
+                        <span class="fs-2 fw-semibold">Halo {{ $page.props.auth.user.student.fullname }}, Selamat
                             bergabung!</span>
                         <span class="fs-4">Selamat datang di PPDB Yatindo!</span>
                     </div>

@@ -5,7 +5,7 @@
                 <div class="card-body text-white d-flex align-items-center">
                     <n-image src="/images/admin-work.png" width="300" />
                     <div class="d-flex flex-column">
-                        <span class="fs-2 fw-semibold">Halo {{ $page.props.auth.user.username }}, Senang melihat mu
+                        <span class="fs-2 fw-semibold">Halo {{ $page.props.auth.user.fullname }}, Senang melihat mu
                             kembali!</span>
                         <span class="fs-4">Mari kita mulai hari ini dengan semangat baru!</span>
                     </div>

@@ -4,41 +4,50 @@
             <span class="fs-2 fw-semibold">Pengembalian</span>
             <div style="border: 1px solid grey; display: flex;" />
         </div>
-        <div class="d-flex mx-4">
-            <n-space vertical>
-                <n-steps :current="current" :status="currentStatus" :theme-overrides="stepTheme">
-                    <n-step title="Pilih Gelombang " description="Pilih gelombang pengembalian untuk ditempuh" />
-                    <n-step title="Pembayaran"
-                        description="Memberikan bukti pembayaran formulir untuk mendapatkan formulir" />
-                        <n-step title="Isi Biodata"
-                        description="Mengisi biodata pribadi untuk pendaftaran di instansi sekolah" />
-                    <n-step v-if="isSMK" title="Pilih Jurusan"
-                        description="Memilih pilihan jurusan untuk menjadi acuan memilih" />
-                    <n-step title="Cetak kartu peserta" description="Cetak hasil kartu peserta" />
-                </n-steps>
-            </n-space>
+
+        <div v-if="!page.props.auth.user.student.student_info.purchase_step_status">
+            <div class="d-flex flex-column align-items-center justify-content-center">
+                <n-image src="/images/not-allowed.png" width="400" />
+                <span class="fs-5 fw-semibold">Dimohon untuk menyelesaikan rangkaian pembelian formulir terlebih dahulu!</span>
+            </div>
         </div>
+        <div v-else>
+            <div class="d-flex mx-4">
+                <n-space vertical>
+                    <n-steps :current="current" :status="currentStatus" :theme-overrides="stepTheme">
+                        <n-step title="Pilih Gelombang " description="Pilih gelombang pengembalian untuk ditempuh" />
+                        <n-step title="Pembayaran"
+                            description="Memberikan bukti pembayaran formulir untuk mendapatkan formulir" />
+                        <n-step title="Isi Biodata"
+                            description="Mengisi biodata pribadi untuk pendaftaran di instansi sekolah" />
+                        <n-step v-if="isSMK" title="Pilih Jurusan"
+                            description="Memilih pilihan jurusan untuk menjadi acuan memilih" />
+                        <n-step title="Cetak kartu peserta" description="Cetak hasil kartu peserta" />
+                    </n-steps>
+                </n-space>
+            </div>
 
 
 
-        <div class="card border-1 shadow-sm mt-4">
-            <div class="card-body">
-                <!-- Inner Card -->
-                <!-- WIZARD BEGIN -->
-                <div v-if="current === 1">
-                    <Returning :data />
-                </div>
-                <div v-else-if="current === 2">
-                    <Pay :data />
-                </div>
-                <div v-else-if="current === 3">
-                    <Biodata :data />
-                </div>
-                <div v-else-if="current === 4 && isSMK">
-                    <Major :data />
-                </div>
-                <div v-else>
-                    <Print :data />
+            <div class="card border-1 shadow-sm mt-4">
+                <div class="card-body">
+                    <!-- Inner Card -->
+                    <!-- WIZARD BEGIN -->
+                    <div v-if="current === 1">
+                        <Returning :data />
+                    </div>
+                    <div v-else-if="current === 2">
+                        <Pay :data />
+                    </div>
+                    <div v-else-if="current === 3">
+                        <Biodata :data />
+                    </div>
+                    <div v-else-if="current === 4 && isSMK">
+                        <Major :data />
+                    </div>
+                    <div v-else>
+                        <Print :data />
+                    </div>
                 </div>
             </div>
         </div>
@@ -58,8 +67,6 @@ const props = defineProps({
     data: Object,
     current: Number
 });
-
-console.log(props.current);
 
 const page = usePage();
 

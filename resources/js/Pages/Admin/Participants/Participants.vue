@@ -17,8 +17,7 @@
                         <span class="fs-5 text-muted">Tidak ada gelombang yang dibuat</span>
                     </div>
                     <div v-else>
-                        <div class="d-flex" v-for="(batch, index) in filterRegistrationbatchWhereType('PEMBELIAN')"
-                            :key="index">
+                        <div class="d-flex" v-for="(batch, index) in batches" :key="index">
                             <div class="card shadow  flex-grow-1 m-3 float-card" @click="handleRedirect(batch.id)"
                                 style="cursor: pointer;">
                                 <div class="card-body align-items-center d-flex">
@@ -43,7 +42,7 @@
                 </n-tab-pane>
                 <n-tab-pane name="pengembalian" tab="PENGEMBALIAN">
                     <!-- Periksa jika array steps kosong -->
-                    <div v-if="filterRegistrationbatchWhereType('PENGEMBALIAN').length === 0"
+                    <div v-if="returnBatches.length === 0"
                         class="d-flex justify-content-center align-items-center flex-column">
                         <!-- Gambar kecil -->
                         <img src="/images/empty.png" alt="Alur pendaftaran kosong" width="300" />
@@ -51,9 +50,8 @@
                         <span class="fs-5 text-muted">Tidak ada gelombang yang dibuat</span>
                     </div>
                     <div v-else>
-                        <div class="d-flex" v-for="(batch, index) in filterRegistrationbatchWhereType('PENGEMBALIAN')"
-                            :key="index">
-                            <div class="card shadow  flex-grow-1 m-3 float-card" @click="handleRedirect(batch.id)"
+                        <div class="d-flex" v-for="(batch, index) in returnBatches" :key="index">
+                            <div class="card shadow  flex-grow-1 m-3 float-card" @click="handleReturnRedirect(batch.id)"
                                 style="cursor: pointer;">
                                 <div class="card-body align-items-center d-flex">
                                     <div class="card-title d-flex align-items-center gap-3">
@@ -65,7 +63,7 @@
                                             <span class="fs-5 fw-semibold">{{ batch.name }}</span>
                                             <div class="d-flex gap-3 align-items-center">
                                                 <n-icon :component="PeopleTeam20Filled" size="25" />
-                                                Pendaftar : {{ batch.students_count }}
+                                                Pendaftar : {{ batch.return_students_count }}
                                             </div>
                                         </div>
                                     </div>
@@ -92,6 +90,7 @@ export default defineComponent({
     setup() {
         const page = usePage();
         const batches = page.props.batches as any[];
+        const returnBatches = page.props.return_batches as any[];
 
         function filterRegistrationbatchWhereType(type: string) {
             return batches.filter(registration_batch => registration_batch.type === type);
@@ -120,6 +119,10 @@ export default defineComponent({
             router.visit(route('participant.list', batch_id));
         }
 
+        function handleReturnRedirect(batch_id: number){
+            router.visit(route('participant.list-returning', batch_id));
+        }
+
         const menuTheme: TabThemeOverrides = {
             tabTextColorSegment: "white",
             tabTextColorHoverSegment: 'white',
@@ -135,12 +138,14 @@ export default defineComponent({
             Delete20Filled,
             PeopleTeam20Filled,
             menuTheme,
+            returnBatches,
             router,
             batches,
             handleDelete,
             handleUpdate,
             filterRegistrationbatchWhereType,
-            handleRedirect
+            handleRedirect,
+            handleReturnRedirect
         }
     }
 })

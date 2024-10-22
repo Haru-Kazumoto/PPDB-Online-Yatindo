@@ -23,6 +23,7 @@ class RegistrationBatch extends Model
         'registration_path_id',
         'batch_code',
         'type',
+        'sub_type',
     ];
 
     public function registrationPaths(): BelongsTo
@@ -30,13 +31,14 @@ class RegistrationBatch extends Model
         return $this->belongsTo(RegistrationPath::class, 'registration_path_id');
     }
 
-    public function staging(): HasOne
-    {
-        return $this->hasOne(Staging::class);
-    }
 
     public function students(): HasMany
     {
         return $this->hasMany(StudentInfo::class, 'batch_id'); // Relasi ke model StudentInfo dengan foreign key 'batch_id'
+    }
+
+    public function returnStudents(): HasMany
+    {
+        return $this->hasMany(StudentInfo::class, 'return_batch_id');
     }
 }

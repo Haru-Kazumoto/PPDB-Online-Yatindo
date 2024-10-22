@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\RegistrationBatch;
 use App\Models\RegistrationPath;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -29,11 +30,13 @@ class RegistrationBatchController extends Controller
             'max_quota' => 'required|integer',
             'start_date' => 'required|date',
             'end_date' => 'required|date',
-            'grade' => 'requierd|string',
+            'grade' => 'required|string',
             'bank_name' => 'required|string',
             'bank_username' => 'required|string',
             'bank_number_account' => 'required|string',
             'batch_code' => 'required|string',
+            'type' => 'required|string',
+            'sub_type' => 'required|string',
             'registration_path_id' => 'required|exists:registration_paths,id',
         ]);
 
@@ -51,8 +54,10 @@ class RegistrationBatchController extends Controller
                 'registration_price' => $request->registration_price,
                 'registration_path_id' => $path->id,
                 'type' => $path->type,
+                'sub_type' => $request->sub_type,
                 'batch_code' => $request->batch_code,
             ]);
+
         });
 
         return redirect()->route('registration-path.detail', $request->registration_path_id)->with('success', 'Gelombang berhasil dibuat.');
@@ -64,6 +69,8 @@ class RegistrationBatchController extends Controller
             'registrationBatch' => $registrationBatch,
         ]);
     }
+
+
 
     public function edit(RegistrationBatch $registrationBatch)
     {

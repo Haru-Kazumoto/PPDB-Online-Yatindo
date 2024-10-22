@@ -16,13 +16,31 @@ use Inertia\Inertia;
 
 class ReturningController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $studentInfo = Auth::user()->student->studentInfo;
+        $studentInfo = $request->user()->student->studentInfo;
         $current = $studentInfo->returning_current_step;
         $data = [];
 
         $batches_query = RegistrationBatch::where('type', 'PENGEMBALIAN');
+
+        $user = $request->user();
+
+        // Cek apakah user memiliki relasi student dan grade
+        if ($user->student) {
+            $grade = $user->student->grade;
+
+            // Jika grade user adalah SMP, filter batch hanya untuk tipe SMP
+            if ($grade == 'SMP') {
+                $batches_query->whereHas('registrationPaths', function($query) {
+                    $query->where('grade', 'SMP');
+                });
+            } else {
+                $batches_query->whereHas('registrationPaths', function($query) {
+                    $query->where('grade', 'SMK');
+                });
+            }
+        }
 
         if ($current == 1) {
             $data = [
@@ -35,7 +53,13 @@ class ReturningController extends Controller
                     ->where('batch_id', $studentInfo->return_batch_id)
                     ->get(),
             ];
-        } else if ($current == 3 && Auth::user()->student->grade == 'SMK') {
+        } else if ($current == 3) {
+            $data = [
+                'payment' => StudentPayments::where('student_id', $studentInfo->student->id)
+                    ->where('batch_id', $studentInfo->return_batch_id)
+                    ->first(),
+            ];
+        } else if ($current == 4 && Auth::user()->student->grade == 'SMK') {
             $data = [
                 'batches' => $batches_query->where('id', $studentInfo->return_batch_id)->first()
             ];
@@ -43,11 +67,11 @@ class ReturningController extends Controller
             $batches = $batches_query->where('id', $studentInfo->return_batch_id)->first();
 
             // Tambahkan pengecekan apakah $batches null
-            if ($batches) {
-                $jalur = RegistrationPath::where('id', $batches->registration_path_id)->first();
-            } else {
-                $jalur = null; // Atau tangani sesuai logika bisnis Anda
-            }
+            $jalur = RegistrationPath::where('id', $batches->registration_path_id)->first();
+            // if ($batches) {
+            // } else {
+            //     $jalur = null; // Atau tangani sesuai logika bisnis Anda
+            // }
 
             $jurusan = StudentLogs::where('student_id', Auth::user()->student->id)->first();
 
@@ -134,7 +158,6 @@ class ReturningController extends Controller
                 'mother_address' => 'required|string',
             ]);
 
-
             DB::transaction(function() use ($student, $dataVerified, $student_info) {
                 // Update data student dengan menggunakan data dari $dataVerified
                 $student->update([
@@ -146,6 +169,14 @@ class ReturningController extends Controller
                     'religion' => $dataVerified['religion'],
                     'birth_place' => $dataVerified['birth_place'],
                     'birth_date' => $dataVerified['birth_date'],
+                    'father_name' => $dataVerified['father_name'],
+                    'father_phone' => $dataVerified['father_phone'],
+                    'father_jobs' => $dataVerified['father_jobs'],
+                    'father_address' => $dataVerified['father_address'],
+                    'mother_name' => $dataVerified['mother_name'],
+                    'mother_phone' => $dataVerified['mother_phone'],
+                    'mother_jobs' => $dataVerified['mother_jobs'],
+                    'mother_address' => $dataVerified['mother_address'],
                 ]);
             
                 // Update alamat
@@ -161,18 +192,6 @@ class ReturningController extends Controller
                 // Update info sekolah
                 $student->studentInfo->update([
                     'school_origin' => $dataVerified['school_origin'],
-                ]);
-            
-                // Update info orang tua
-                $student->update([
-                    'father_name' => $dataVerified['father_name'],
-                    'father_phone' => $dataVerified['father_phone'],
-                    'father_jobs' => $dataVerified['father_jobs'],
-                    'father_address' => $dataVerified['father_address'],
-                    'mother_name' => $dataVerified['mother_name'],
-                    'mother_phone' => $dataVerified['mother_phone'],
-                    'mother_jobs' => $dataVerified['mother_jobs'],
-                    'mother_address' => $dataVerified['mother_address'],
                 ]);
 
                 $student_info->update([
@@ -196,7 +215,6 @@ class ReturningController extends Controller
                 'registration_type' => '',
                 'student_id' => Auth::user()->student->id,
                 'batch_id' => $student_info->batch_id,
-                'staging_id' => 1,
             ]);
         } else if($student_info->returning_current_step == 5) {
             $student_info->update([
@@ -214,9 +232,13 @@ class ReturningController extends Controller
         $payment = new StudentPayments();
         $payment->total = 0;
         $payment->payment_method = $request->payment_method;
-        $payment->status = 1;
+        $payment->status = "PENDING";
         $payment->student_id = Auth::user()->student->id;
         $payment->batch_id = Auth::user()->student->studentInfo->return_batch_id;
+        $payment->nominal = $request->nominal;
+        $payment->bank_name = $request->bank_name;
+        $payment->bank_number = $request->bank_number;
+        $payment->account_user_bank = $request->account_user_bank;
 
         if ($request->hasFile('payment_image')) {
             $image = $request->file('payment_image');
@@ -236,12 +258,9 @@ class ReturningController extends Controller
     public function addProfile(Request $request)
     {
         // Misalkan Anda mendapatkan student_id dari request
-        $student_info = StudentInfo::where('student_id', Auth::user()->student->studentInfo->id)->first();
+        $student_info = StudentInfo::where('student_id', $request->user()->student->id)->first();
 
         // Jika tidak ada data yang ditemukan, Anda dapat menangani error
-        if (!$student_info) {
-            return back()->with('error', 'Student info not found.');
-        }
 
         if ($request->hasFile('profile_image')) {
             $image = $request->file('profile_image');

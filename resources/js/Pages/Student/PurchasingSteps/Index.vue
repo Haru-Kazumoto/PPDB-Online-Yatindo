@@ -30,7 +30,7 @@
                     <Pay :data />
                 </div>
                 <div v-else-if="current === 3 && isSMK">
-                    <Major :data />
+                    <Major :data :payments/>
                 </div>
                 <div v-else>
                     <Print :data />
@@ -49,8 +49,11 @@ import Print from './Print.vue';
 
 const props = defineProps({
     data: Object,
-    current: Number
-})
+    current: Number,
+    payments: Object,
+});
+
+console.log(props.payments);
 
 const page = usePage();
 

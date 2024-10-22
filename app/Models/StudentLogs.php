@@ -25,6 +25,6 @@ class StudentLogs extends Model
 
     public function student(): BelongsTo
     {
-        return $this->belongsTO(Student::class, 'student_id');
+        return $this->belongsTo(Student::class, 'student_id');
     }
 }

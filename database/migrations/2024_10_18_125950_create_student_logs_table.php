@@ -13,18 +13,17 @@ return new class extends Migration
     {
         Schema::create('student_logs', function (Blueprint $table) {
             $table->id();
-            $table->string('status');
-            $table->string('major_estimation');
-            $table->string('major_fix');
-            $table->string('remark');
-            $table->string('registration_type');
+            $table->string('status')->nullable();
+            $table->string('major_estimation')->nullable();
+            $table->string('major_fix')->nullable();
+            $table->string('remark')->nullable();
+            $table->string('registration_type')->nullable();
             
 
             
             // $table->foreignId('staging_id')->constrained('staging')->cascadeOnDelete();
             $table->foreignId('batch_id')->constrained('registration_batch')->cascadeOnDelete();
             $table->foreignId('student_id')->constrained('student')->cascadeOnDelete();
-            $table->foreignId('staging_id')->constrained('staging')->after("student_id");
             $table->timestamps();
         });
     }

@@ -4,7 +4,7 @@
         <p class="fw-semibold">Silahkan melakukan transfer ke rekening dibawah ini jika anda memilih metode pembayaran
             transfer :</p>
 
-        <table class="mt-4" style="width: 100%;">
+        <table class="mt-4" style="width: 40%;">
             <tr>
                 <td>Bank</td>
                 <td><b>: {{ data.batches.bank_name }}</b></td>
@@ -21,35 +21,15 @@
                 <td>Atas Nama</td>
                 <td><b>: {{ data.batches.bank_username }}</b></td>
             </tr>
-            <tr>
-                <td>Status Pembayaran</td>
-                <td>:
-                    <!-- Jika status null -->
-                    <n-tag v-if="data.payments.filter(data => data.status === 'CONFIRM').status === 'CONFIRM'" :bordered="true" size="large" class="ms-auto" type="success">
-                        Pembayaran Terkonfirmasi
-                    </n-tag>
-
-                    <!-- Jika status false (menunggu konfirmasi admin) -->
-                    <n-tag v-else-if="data.payments.filter(data => data.status === 'PENDING').status === 'PENDING'" :bordered="true" size="large" class="ms-auto"
-                        type="warning">
-                        Menunggu Konfirmasi Admin
-                    </n-tag>
-
-                    <!-- Jika status true (pembayaran terkonfirmasi) -->
-                    <n-tag v-else :bordered="true" size="large" type="warning" class="ms-auto">
-                        Belum upload
-                    </n-tag>
-                </td>
-
-            </tr>
         </table>
 
-        <button class="btn btn-sm btn-primary mt-4" @click="showModal">Bayar</button>
+        <button class="btn btn-md btn-primary mt-4" @click="showModal">Upload bukti bayar</button>
         <table class="table table-bordered mt-3">
             <thead class="table-dark">
                 <tr>
                     <th>File</th>
                     <th>Metode Pembayaran</th>
+                    <th>Nominal</th>
                     <th>Bank</th>
                     <th>No Rekening</th>
                     <th>Atas Nama</th>
@@ -59,9 +39,10 @@
                 <tr v-for="(payment, index) in data.payments" :key="index">
                     <td align="center"><n-image width="100" :src="`/storage/${payment.payment_image}`" /></td>
                     <td>{{ payment.payment_method }}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ `Rp ${payment.nominal}` }}</td>
+                    <td>{{ payment.bank_name }}</td>
+                    <td>{{ payment.bank_number }}</td>
+                    <td>{{ payment.account_user_bank }}</td>
                 </tr>
             </tbody>
         </table>
@@ -79,12 +60,36 @@
                     <h1 class="modal-title fs-5" id="paymentModalLabel">Kirim Bukti Pembayaran</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body d-flex flex-column gap-2">
                     <div class="form-group">
-                        <label for="payment_method">Metode Pembayaran</label>
-                        <input type="text" id="payment_method" class="form-control" v-model="form.payment_method"
-                            readonly required>
+                        <label for="payment_method">Metode Pembayaran <span class="text-danger">*</span></label>
+                        <n-select :options="paymentMethodOptions" placeholder="" size="medium" id="payment_method"
+                            v-model:value="form.payment_method" />
                     </div>
+                    <div class="form-group">
+                        <label for="payment_method">Nominal<span class="text-danger">*</span></label>
+                        <n-input placeholder="" size="medium" id="nominal" v-model:value="form.nominal"
+                            @input="(value) => form.nominal = value.replace(/\D/g, '')">
+                            <template #prefix>Rp</template>
+                        </n-input>
+                    </div>
+
+                    <!-- sayaingin menampilkan 3 field jika payment_method itu transfer -->
+                    <div v-if="isTransfer" class="d-flex flex-column gap-2">
+                        <div class="form-group">
+                            <label for="payment_method">Nama Bank<span class="text-danger">*</span></label>
+                            <n-input placeholder="" size="medium" id="nominal" v-model:value="form.bank_name" />
+                        </div>
+                        <div class="form-group">
+                            <label for="payment_method">Nomor Rekening<span class="text-danger">*</span></label>
+                            <n-input placeholder="" size="medium" id="nominal" v-model:value="form.bank_number" />
+                        </div>
+                        <div class="form-group">
+                            <label for="payment_method">Nama Pemilik Akun<span class="text-danger">*</span></label>
+                            <n-input placeholder="" size="medium" id="nominal" v-model:value="form.account_user_bank" />
+                        </div>
+                    </div>
+
                     <div class="form-group mb-2 mt-3">
                         <label for="image">Bukti Pembayaran</label>
                         <input @change="onImagePreview" accept="image/*" type="file" class="form-control" id="image"
@@ -92,7 +97,7 @@
                     </div>
                     <div class="form-group mb-2" v-if="imagePreview">
                         <label for="imagePreview">Image Preview</label> <br>
-                        <img :src="imagePreview" class="img-fluid" style="width: 170px;">
+                        <n-image :src="imagePreview" class="img-fluid" style="width: 170px;" />
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -105,20 +110,36 @@
         </div>
     </div>
 </template>
+
 <script setup>
 import { router, useForm } from '@inertiajs/vue3';
+import { watch, ref } from 'vue';
 
 const props = defineProps({
     data: Object
 });
 
-console.log(props.data.payments.filter(data => data.status === 'PENDING').status);
-
 const form = useForm({
-    payment_method: "Transfer Bank",
+    payment_method: '',
     payment_image: null,
-})
+    nominal: null,
+    bank_name: '',
+    bank_number: '',
+    account_user_bank: '',
+});
+
+const isTransfer = ref(false);
 const imagePreview = ref(null); // Menyimpan URL gambar untuk preview
+
+watch(() => form.payment_method, (newValue) => {
+    console.log(newValue);
+    isTransfer.value = newValue === 'TRANSFER';
+});
+
+const paymentMethodOptions = [
+    { label: "TUNAI", value: "TUNAI" },
+    { label: "TRANSFER", value: "TRANSFER" },
+];
 
 const showModal = () => {
     $('#paymentModal').modal('show');

@@ -29,6 +29,8 @@ Route::middleware(['guest'])->group(function() {
 
     Route::get('register-smp', [RegisteredUserController::class, 'showRegisterSmp'])->name('register.smp');
     Route::get('register-smk', [RegisteredUserController::class, 'showRegisterSmk'])->name('register.smk');
+
+    Route::post('register', [RegisteredUserController::class, 'register'])->name('register');
 });
 
 Route::middleware(['auth','web'])->group(function() {

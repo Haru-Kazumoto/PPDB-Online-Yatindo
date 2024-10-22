@@ -4,23 +4,19 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Role;
+use App\Models\Student;
+use App\Models\StudentAddress;
+use App\Models\StudentInfo;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class RegisteredUserController extends Controller
 {
-    // public function showRegisterView(): Response
-    // {
-    //     $roles = Role::all();
-    //     return Inertia::render('Auth/Register', [
-    //         'roles' => $roles
-    //     ]);
-    // }
-
     public function showRegisterSmp()
     {
         return Inertia::render('Auth/RegisterSMP');
@@ -37,34 +33,72 @@ class RegisteredUserController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function register(Request $request): RedirectResponse
+    public function register(Request $request)
     {
-        $request->validate([
+        $dataValidated = $request->validate([
+            'phone' => "required|string",
             'fullname' => 'required|string',
-            'username' => 'required|string|max:255|unique:users,username',
-            'email' => 'required|string|email|unique:users,email',
-            'password' => 'required|string',
-            'role_id' => 'required|exists:roles,id'
+            'address' => 'required|string',
+            'gender' => 'required|string',
+            'school_origin' => 'required|string',
+            'password' => "required|string",
+            'grade' => 'required|string',
         ]);
 
-        DB::beginTransaction();
-
-        try {
-
-            User::create([
-                'fullname' => $request->input('fullname'),
-                'username' => $request->input('username'),
-                'email' => $request->input('email'),
-                'password' => $request->input('password'),
-                'role_id' => $request->input('role_id')
+        DB::transaction(function() use ($dataValidated){
+            $userCreated = User::create([
+                'username' => $dataValidated['phone'],
+                'password' => $dataValidated['password'],
             ]);
-            DB::commit();
 
-            return redirect(route('login', absolute: false))->with('success', 'New user has registered');
-        } catch(\Exception $e) {
-            DB::rollback();
+            $studentCreated = Student::create([
+                'user_id' => $userCreated->id,
+                'fullname' => $dataValidated['fullname'],
+                'phone' => $dataValidated['phone'],
+                'gender' => $dataValidated['gender'],
+                'grade' => $dataValidated['grade'],
+            ]);
 
-            return back()->with('failed', $e->getMessage());
-        }
+            StudentAddress::create([
+                'address' => $dataValidated['address'],
+                'student_id' => $studentCreated->id,
+            ]);
+
+            StudentInfo::create([
+                'school_origin' => $dataValidated['school_origin'],
+                'student_id' => $studentCreated->id,
+            ]);
+        });
+
+        return redirect()->route('login')->with('success', 'Akun berhasil dibuat, silahkan login');
+    }
+
+    public function changePassword(Request $request,$user_id)
+    {
+        $request->validate([
+            'username' => 'required|string|unique:users,username,' . $user_id,
+            'password' => 'required|string'
+        ],[
+            'username.required' => "Username harus diisi",
+            'username.unique' => "Username telah dipakai",
+            'password.required' => "Password harus diisi",
+        ]);
+
+        $user = User::where('id', $user_id)->first();
+
+        DB::transaction(function() use ($request,$user) {
+            // Update username jika ada perubahan
+            if ($request->username !== $user->username) {
+                $user->username = $request->username;
+            }
+
+            // Update password
+            $user->password = Hash::make($request->password);
+
+            // Simpan perubahan ke database
+            $user->save();
+        });
+
+        return back()->with('success','Berhasil mengganti informasi akun siswa');
     }
 }

@@ -14,6 +14,10 @@ class StudentPayments extends Model
         'status',
         'student_id',
         'batch_id',
+        'bank_name',
+        'bank_number',
+        'account_user_bank',
+        'nominal'
     ];
 
     public function student(): BelongsTo

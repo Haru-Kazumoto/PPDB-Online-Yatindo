@@ -44,10 +44,6 @@
                                     </div>
                                     <div class="d-flex flex-column gap-2">
                                         <span class="fs-5 fw-semibold">{{ batch.name }}</span>
-                                        <div class="d-flex gap-2">
-                                            <n-icon :component="PeopleTeam32Filled" size="20" />
-                                            {{ batch.applicants_count }} Pendaftar
-                                        </div>
                                     </div>
                                     <div class="d-flex gap-2 ms-auto">
                                         <n-button color="red" circle size="large" @click="handleDeleteBatch(batch.id)">
@@ -71,13 +67,15 @@
                                         </div>
                                         <div class="d-flex flex-column">
                                             <span class="fs-5 fw-semibold">Pendaftaran gelombang</span>
-                                            <span>{{ batch.start_date }} - {{ batch.end_date }}</span>
+                                            <span>{{ formatDate(batch.start_date) }} - {{ formatDate(batch.end_date)
+                                                }}</span>
                                         </div>
                                         <div class="px-4 py-1 ms-auto rounded"
-                                            :style="getBatchStatusStyle(batch.status)">
+                                            :style="isStillOpen(batch.end_date) ? getBatchStatusStyle('TERBUKA') : getBatchStatusStyle('DITUTUP')">
                                             <span class="fw-semibold"
-                                                :style="{ color: getStatusTextColor(batch.status) }">{{ batch.status
-                                                }}</span>
+                                                :style="{ color: isStillOpen(batch.end_date) ? getStatusTextColor('TERBUKA') : getStatusTextColor('DITUTUP') }">
+                                                {{ isStillOpen(batch.end_date) ? 'TERBUKA' : 'DITUTUP' }}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -99,6 +97,7 @@ import {
 } from "@vicons/fluent";
 import { router, usePage } from '@inertiajs/vue3';
 import Swal from 'sweetalert2';
+import { formatDate, isStillOpen } from '../../../Utils/menus';
 
 export default defineComponent({
     setup() {
@@ -106,7 +105,7 @@ export default defineComponent({
         const path = page.props.registrationPath as any;
 
         function getBatchStatusStyle(status) {
-            if (status === 'DIBUKA') {
+            if (status === 'TERBUKA') {
                 return {
                     border: '1px solid #88ff75',
                     backgroundColor: '#caffc2'
@@ -138,9 +137,8 @@ export default defineComponent({
             });
         }
 
-        // Function to get text color based on status
         function getStatusTextColor(status) {
-            return status === 'DIBUKA' ? '#349c24' : '#9c2424';
+            return status === 'TERBUKA' ? 'green' : 'red';
         }
 
         return {
@@ -154,7 +152,9 @@ export default defineComponent({
             getBatchStatusStyle,
             getStatusTextColor,
             handleAddBatch,
-            handleDeleteBatch
+            handleDeleteBatch,
+            formatDate,
+            isStillOpen,
         }
     },
     components: {

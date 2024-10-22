@@ -1,4 +1,10 @@
 <template>
+    <div v-if="data.batches.length === 0">
+        <div class="d-flex flex-column gap-2 align-items-center">
+            <n-image src="/images/empty-2.png" width="300" preview-disabled />
+            <span class="fw-semibold fs-5">Gelombang masih kosong, silahkan tunggu</span>
+        </div>
+    </div>
     <div v-for="(batch, index) in data.batches" :key="index">
         <div class="card float-card mb-3" style="cursor: pointer;"
             @click="handleAssign(batch.id, batch.type, batch.batch_code, batch.name)">

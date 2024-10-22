@@ -12,7 +12,6 @@ export default defineComponent({
 
         // Pisahkan path untuk mendapatkan bagian terakhir dari URL
         const registerType = path.split('/').pop(); // Akan menghasilkan 'r
-        console.log(registerType)
         const isSMP = registerType === 'register-smp';
         const isSMK = registerType === 'register-smk';
         const schoolType = isSMP ? 'SMP' : 'SMK';

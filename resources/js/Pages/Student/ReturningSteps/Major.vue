@@ -3,7 +3,7 @@
         <h3 class="h3 fw-semibold">Pilih Jurusan</h3>
         <div class="form-group mt-3">
             <label for="jurusan_utama">
-                {{ $page.props.data.jalur.type === 'PEMBELIAN' ? 'Jurusan Utama' : 'Jurusan Pilihan' }}
+                {{ $page.props.data.batches.type === 'PEMBELIAN' ? 'Jurusan Utama' : 'Jurusan Pilihan' }}
                 <span class="text-danger">*</span></label>
             <select id="jurusan_utama" class="form-control" v-model="form.major_fix">
                 <option value="" selected>Pilihan Utama</option>
@@ -13,7 +13,7 @@
                 <option value="AK">Akuntansi dan Keuangan</option>
             </select>
         </div>
-        <div class="form-group mt-2" v-if="$page.props.data.jalur.type === 'PEMBELIAN'">
+        <div class="form-group mt-2" v-if="$page.props.data.batches.type === 'PEMBELIAN'">
             <label for="opsi_jurusan">Opsi Lain</label>
             <select id="opsi_jurusan" class="form-control" v-model="form.major_estimation">
                 <option value="" selected>Pilihan Alternatif</option>
@@ -35,8 +35,7 @@ const props = defineProps({
 });
 
 const page = usePage();
-
-console.log(page.props.data.jalur.type);
+console.log(page.props.data.batches.type);
 
 const form = useForm({
     z: null,
