@@ -96,7 +96,7 @@
                                 <!-- Collapse hanya berpengaruh pada konten, tidak pada tombol -->
                                 <n-collapse v-model:value="activeSections">
                                     <n-collapse-item :name="index">
-                                        <div v-html="step.description"></div>
+                                        <div v-html="sanitizedHTML(step.description)"></div>
                                     </n-collapse-item>
                                 </n-collapse>
                             </div>
@@ -113,6 +113,7 @@ import { Delete20Filled, Edit20Filled, Add16Filled } from '@vicons/fluent';
 import { defineComponent, ref } from 'vue';
 import { router, usePage } from '@inertiajs/vue3';
 import Swal from 'sweetalert2';
+import DOMPurify from 'dompurify';
 
 export default defineComponent({
     setup() {
@@ -124,6 +125,10 @@ export default defineComponent({
 
         function handleRedirectUpdate(step_id: number) {
             router.get(route('registration-step.edit', step_id));
+        }
+
+        function sanitizedHTML(htmlContent) {
+            return DOMPurify.sanitize(htmlContent);
         }
 
         function handleDelete(step_id: number) {
@@ -149,6 +154,7 @@ export default defineComponent({
             activeSections,
             handleRedirectUpdate,
             handleDelete,
+            sanitizedHTML,
             router,
             steps_smk,
             steps_smp,

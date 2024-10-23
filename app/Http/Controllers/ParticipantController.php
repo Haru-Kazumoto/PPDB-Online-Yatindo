@@ -118,13 +118,8 @@ class ParticipantController extends Controller
             ->with('studentAddress','studentInfo')
             ->get();
 
-        // Cek apakah fungsi download dieksekusi dengan benar
-        $response = Excel::download(new StudentExport(), 'student.xlsx');
-        
-        // Debug: Apakah respons dikembalikan?
-        // dd($response);
-
-        return $response;
+        // Pass data student ke dalam StudentExport dan download sebagai Excel
+        return Excel::download(new StudentExport($studentToExport), 'students.xlsx');
     }
 
     public function showParticipant(Student $student)

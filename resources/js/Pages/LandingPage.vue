@@ -79,26 +79,17 @@
                     </div>
                 </div>
 
-                <div class="mt-24 text-black w-fit mx-auto font-bold text-2xl max-md:mb-[150%] mb-[70%] ">
-                    <div class="px-10 py-3 bg-white rounded-full text-center">
-                        Alur Pendaftaran SMP
-                    </div>
-                    <div class="bg-white p-24 my-5 rounded-xl">
-                        Alur Peendaftaran Kosong
-                    </div>
-                    <div class="px-10 py-3 bg-white rounded-full text-center">
-                        Alur Pendaftaran SMK
-                    </div>
-                    <div class="bg-white p-24 my-5 rounded-xl">
-                        Alur Peendaftaran Kosong
-                        <br/>
-                        <br/>
-                        <br/>
-                        <br/>
-                        <br/>
-                        <br/>
-                        <br/>
-                        <br/>
+                <div class="mt-24 text-black w-75 mx-auto font-bold text-2xl max-md:mb-[150%] mb-[70%] ">
+                    <div class="card border-0">
+                        <div class="card-body">
+                            <div class="card-title">Alur Pendaftaran SMP</div>
+                            <!-- Inner card -->
+                            <div class="card">
+                                <div class="card-body">
+                                    <span v-html="$page.props.step_smp" />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

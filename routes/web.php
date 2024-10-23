@@ -1,5 +1,6 @@
 <?php
 
+use App\Exports\StudentExport;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LandingPageController;
@@ -10,6 +11,9 @@ use App\Http\Controllers\RegistrationPathController;
 use App\Http\Controllers\RegistrationStepController;
 use App\Http\Controllers\ReturningController;
 use Illuminate\Support\Facades\Route;
+use Maatwebsite\Excel\Facades\Excel;
+
+Route::get('/ppdb', [LandingPageController::class, 'show'])->name('show.ppdb');
 
 Route::middleware(['auth', 'verified'])->group(function() {
     Route::get('/dashboard/admin', [DashboardController::class, 'showAdminDashboard'])->name('dashboard.admin');
@@ -60,7 +64,8 @@ Route::middleware(['auth','web'])->group(function() {
         Route::post('confirm-payment/{studentPayments}', [ParticipantController::class, 'confirmPayment'])->name('.confirm-payment');
         Route::patch('change-credential/{user_id}',[RegisteredUserController::class, 'changePassword'])->name('.change-credential');    
 
-        Route::post('get-participants/{batch_id}',[ParticipantController::class,'exportPurchaseParticipant'])->name('.get-participants');
+        Route::get('get-participants/{batch_id}',[ParticipantController::class,'exportPurchaseParticipant'])->name('.get-participants');
+
     });
 
     // Purchasing
@@ -86,6 +91,5 @@ Route::middleware(['auth','web'])->group(function() {
 
 });
 
-Route::get('/ppdb', [LandingPageController::class, 'show']);
 
 require __DIR__.'/auth.php';

@@ -20,6 +20,7 @@
     "dependencies": {
         "@inertiajs/vue3": "^1.2.0",
         "dayjs": "^1.11.13",
+        "dompurify": "^3.1.7",
         "jquery": "^3.7.1",
         "sweetalert2": "^11.14.3",
         "unplugin-auto-import": "^0.18.3",

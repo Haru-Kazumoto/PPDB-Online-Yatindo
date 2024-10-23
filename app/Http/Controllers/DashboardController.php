@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\RegistrationStep;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -16,4 +17,6 @@ class DashboardController extends Controller
     {
         return Inertia::render('Student/Dashboard');
     }
+
+
 }

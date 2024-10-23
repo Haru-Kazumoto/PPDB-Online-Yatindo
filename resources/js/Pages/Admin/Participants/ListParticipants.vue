@@ -171,7 +171,7 @@ export default defineComponent({
         }
 
         function handleExportExcel(batch_id: number) {
-            router.post(route('participant.get-participants',batch_id));
+            router.get(route('participant.get-participants',batch_id));
         }
 
         return {

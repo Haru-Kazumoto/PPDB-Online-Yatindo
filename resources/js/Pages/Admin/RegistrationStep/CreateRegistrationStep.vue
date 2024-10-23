@@ -18,8 +18,8 @@
                         <div class="d-flex flex-column gap-4">
                             <!-- Nama Jalur -->
                             <div class="d-flex flex-column">
-                                <Label label="Nama jalur" required />
-                                <n-input size="large" v-model:value="form.title" placeholder="Masukkan nama jalur" @input="(value) => form.title = value.toUpperCase()" />
+                                <Label label="Nama alur" required />
+                                <n-input size="large" v-model:value="form.title" placeholder="" @input="(value) => form.title = value.toUpperCase()" />
                             </div>
 
                             <!-- Jenjang -->
