@@ -25,10 +25,10 @@ class UserSeeder extends Seeder
         // ]);
         DB::transaction(function () {
             User::create([
-                'username' => '12345',
-                'password' => Hash::make('123'),
+                'username' => 'admin_ppdb',
+                'password' => Hash::make('yatindo123'),
                 'is_admin' => true,
-                'fullname' => "Sekar Mayang Setya Utami"
+                'fullname' => "Admin PPDB Yatindo"
             ]);
 
             // $student = Student::create([
