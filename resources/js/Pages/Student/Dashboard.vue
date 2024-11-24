@@ -1,23 +1,31 @@
 <template>
     <div class="d-flex flex-column gap-2">
         <div class="my-4">
+            <!-- Card Section -->
             <div class="card shadow-sm border-0" :style="{ backgroundColor: backgroundColor }">
-                <div class="card-body text-white d-flex align-items-center">
-                    <n-image src="/images/student.png" width="300" preview-disabled/>
-                    <div class="d-flex flex-column">
-                        <span class="fs-2 fw-semibold">Halo {{ $page.props.auth.user.student.fullname }}, Selamat
-                            bergabung!</span>
-                        <span class="fs-4">Selamat datang di PPDB Yatindo!</span>
+                <div class="card-body text-white d-flex flex-column flex-md-row align-items-center gap-3">
+                    <!-- Image Section -->
+                    <n-image src="/images/student.png" class="img-fluid" width="300" preview-disabled />
+
+                    <!-- Text Section -->
+                    <div class="d-flex flex-column text-center text-md-start">
+                        <span class="fs-3 fs-md-2 fw-semibold">Halo {{ $page.props.auth.user.student.fullname }},
+                            Selamat bergabung!</span>
+                        <span class="fs-6 fs-md-4">Selamat datang di PPDB Yatindo!</span>
                     </div>
                 </div>
             </div>
+
+            <!-- Alert Section -->
             <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert">
-                <strong>Selamat datang</strong>, anda telah terdaftar di sistem kami, mohon selesaikan pengisian formulir.
+                <strong>Selamat datang</strong>, Anda telah terdaftar di sistem kami, mohon selesaikan pengisian
+                formulir.
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         </div>
     </div>
 </template>
+
 
 <script lang="ts">
 import { usePage } from '@inertiajs/vue3';

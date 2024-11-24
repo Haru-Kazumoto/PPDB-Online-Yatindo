@@ -1,37 +1,39 @@
 <template>
-    <n-notification-provider>
-        <n-message-provider>
-            <n-modal-provider>
-                <n-layout style="height: 100vh">
-                    <n-layout-header bordered style="height: 64px;">
-                        <Header />
-                    </n-layout-header>
-                    <n-layout has-sider position="absolute" style="top: 64px;">
-                        <n-layout-sider :native-scrollbar="false" bordered collapse-mode="width" :width="300"
-                            :collapsed="collapsed" @collapse="collapsed = true" @expand="collapsed = false"
-                            :collapsed-width="64" style="background-color: #002365; ">
-                            <n-menu :collapsed="collapsed" :collapsed-width="64" :collapsed-icon-size="22"
-                                :options="selectedMenuOptions" :render-label="renderMenuLabel" default-value="dashboard"
-                                :theme-overrides="menuTheme" />
-                            <!-- @update:value="handleMenuClick" -->
-                        </n-layout-sider>
-                        <n-layout :native-scrollbar="false">
-                            <div class="container-fluid flex-grow-1 min-vh-100 z-n1" style="background-color: #EEF8F5;">
-                                <slot />
-                            </div>
+    <n-config-provider>
+        <n-notification-provider>
+            <n-message-provider>
+                <n-modal-provider>
+                    <n-layout style="height: 100vh">
+                        <n-layout-header bordered style="height: 64px;">
+                            <Header />
+                        </n-layout-header>
+                        <n-layout has-sider position="absolute" style="top: 64px;">
+                            <n-layout-sider :native-scrollbar="false" bordered collapse-mode="width" :width="300"
+                                :collapsed="collapsed" @collapse="collapsed = true" @expand="collapsed = false"
+                                :collapsed-width="0" style="background-color: #002365;" show-trigger >
+                                <n-menu :collapsed="collapsed" :collapsed-width="64" :collapsed-icon-size="22"
+                                    :options="selectedMenuOptions" :render-label="renderMenuLabel"
+                                    default-value="dashboard" :theme-overrides="menuTheme" />
+                            </n-layout-sider>
+                            <n-layout :native-scrollbar="false">
+                                <div class="container-fluid flex-grow-1 min-vh-100 z-n1"
+                                    style="background-color: #EEF8F5;">
+                                    <slot />
+                                </div>
+                            </n-layout>
                         </n-layout>
                     </n-layout>
-                </n-layout>
-            </n-modal-provider>
-        </n-message-provider>
-    </n-notification-provider>
+                </n-modal-provider>
+            </n-message-provider>
+        </n-notification-provider>
+    </n-config-provider>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, provide, h, computed } from 'vue';
-import { Link, usePage } from '@inertiajs/vue3';
+import { defineComponent, ref, provide, h, computed, onMounted, onUnmounted } from 'vue';
+import { Link, router, usePage } from '@inertiajs/vue3';
 import { MenuProps } from 'naive-ui';
-import { Home16Filled,BranchCompare24Filled,DocumentBriefcase24Filled, ArrowForwardDownPerson24Filled, BorderAll24Regular, Branch24Filled, ChevronDown12Regular, PeopleCommunity20Filled } from "@vicons/fluent";
+import { Home16Filled, BranchCompare24Filled, DocumentBriefcase24Filled, ArrowForwardDownPerson24Filled, BorderAll24Regular, Branch24Filled, ChevronDown12Regular, PeopleCommunity20Filled } from "@vicons/fluent";
 import Header from "../Components/Header.vue";
 import { renderIcon } from "../Utils/menus.ts";
 
@@ -129,6 +131,27 @@ export default defineComponent({
         // Provide state and toggle function to child components
         provide('collapsed', collapsed);
         provide('toggleCollapse', toggleCollapse);
+
+        // Fungsi untuk mendeteksi ukuran layar
+        function handleResize() {
+            const isSmallScreen = window.matchMedia("(max-width: 768px)").matches;
+            if (isSmallScreen) {
+                collapsed.value = true; // Sider tertutup di layar kecil
+            }
+        }
+
+        // Pasang listener saat komponen dimuat
+        onMounted(() => {
+            handleResize(); // Set initial state
+            window.addEventListener("resize", handleResize);
+
+            router.on("navigate", handleResize);
+        });
+
+        // Hapus listener saat komponen dilepas
+        onUnmounted(() => {
+            window.removeEventListener("resize", handleResize);
+        });
 
         return {
             toggleCollapse,

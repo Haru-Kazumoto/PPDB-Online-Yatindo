@@ -63,8 +63,9 @@ Route::middleware(['auth','web'])->group(function() {
         Route::get('return-participant/{student}',[ParticipantController::class, 'showReturnParticipant'])->name('.detail-return-participant');
         Route::post('confirm-payment/{studentPayments}', [ParticipantController::class, 'confirmPayment'])->name('.confirm-payment');
         Route::patch('change-credential/{user_id}',[RegisteredUserController::class, 'changePassword'])->name('.change-credential');    
+        Route::patch('delete-student/{student}/{registrationBatch}', [ParticipantController::class, 'removeStudentFromBatch'])->name('.delete-student');
 
-        Route::get('get-participants/{batch_id}',[ParticipantController::class,'exportPurchaseParticipant'])->name('.get-participants');
+        Route::post('get-participants/{batch_id}',[ParticipantController::class,'exportPurchaseParticipant'])->name('.get-participants');
 
     });
 

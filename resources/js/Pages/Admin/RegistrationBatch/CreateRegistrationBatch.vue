@@ -94,8 +94,8 @@ export default defineComponent({
         const form = useForm({
             name: '',
             max_quota: null,
-            start_date: path.start_date,
-            end_date: path.end_date,
+            start_date: null ,
+            end_date: null ,
             bank_name: '',
             bank_username: "",
             bank_number_account: '',

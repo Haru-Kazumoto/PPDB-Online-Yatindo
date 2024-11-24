@@ -141,6 +141,7 @@ export default defineComponent({
                 if (result.isConfirmed) {
                     router.delete(route('registration-path.delete', id), {
                         onSuccess: () => {
+                            router.get(route('registration-path.index'));
                             Swal.fire('Berhasil menghapus!', '', 'success');
                         }
                     });

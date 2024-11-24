@@ -10,7 +10,19 @@ export function renderIcon(icon) {
 }
 
 export function formatDate(date) {
-    return dayjs(date).format('DD MMMM YYYY HH:mm:ss');
+    return dayjs(date).format('DD MMMM YYYY HH:mm');
+}
+
+export function formatRupiah(amount) {
+    if (!amount) return 'Rp 0'; // Jika tidak ada nominal, tampilkan Rp 0
+
+    const formatter = new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        minimumFractionDigits: 0, // Set ke 0 jika tidak ingin menampilkan desimal
+    });
+
+    return formatter.format(amount); // Format angka menjadi Rupiah
 }
 
 export function isStillOpen(endDate) {

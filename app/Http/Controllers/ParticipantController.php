@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Str;
 
 class ParticipantController extends Controller
 {
@@ -110,16 +111,11 @@ class ParticipantController extends Controller
 
     public function exportPurchaseParticipant($batch_id) 
     {
-        $batch = RegistrationBatch::where('id',$batch_id)->first();
-
-        $studentToExport = Student::whereHas('studentInfo',function($query) use ($batch) {
-            $query->where('batch_id',$batch->id);
-        })
-            ->with('studentAddress','studentInfo')
-            ->get();
+        $batch = RegistrationBatch::where('id', $batch_id)->first();
+        $batch_name = Str::lower(Str::replace(' ', '_', $batch->name));
 
         // Pass data student ke dalam StudentExport dan download sebagai Excel
-        return Excel::download(new StudentExport($studentToExport), 'students.xlsx');
+        return Excel::download(new StudentExport($batch->id), "data_siswa_$batch_name.xlsx");
     }
 
     public function showParticipant(Student $student)
@@ -184,11 +180,11 @@ class ParticipantController extends Controller
         return back()->with('payment', $studentPayments)->with('success', 'Berhasil terkonfirmasi');
     }
 
-    public function removeStudentFromBatch($studentId, $batchId)
+    public function removeStudentFromBatch(Student $student,RegistrationBatch $registrationBatch)
     {
-        DB::transaction(function () use ($studentId, $batchId) {
+        DB::transaction(function () use ($student, $registrationBatch) {
             // Temukan siswa yang akan dihapus
-            $studentToRemove = StudentInfo::find($studentId);
+            $studentToRemove = StudentInfo::where('id', $student->id)->first();
 
             if ($studentToRemove) {
                 // Ambil indeks siswa yang dihapus
@@ -201,14 +197,14 @@ class ParticipantController extends Controller
                 $studentToRemove->delete();
 
                 // Ambil siswa lain di batch yang sama, yang memiliki index lebih besar
-                $studentsInBatch = StudentInfo::where('batch_id', $batchId)
-                    ->where('id', '!=', $studentId) // Ambil semua siswa kecuali yang dihapus
+                $studentsInBatch = StudentInfo::where('batch_id', $registrationBatch->id)
+                    ->where('id', '!=', $student->id) // Ambil semua siswa kecuali yang dihapus
                     ->orderBy('purchase_registration_date', 'asc')
                     ->get();
 
                 // Update form_number untuk siswa yang tersisa
-                foreach ($studentsInBatch as $student) {
-                    $currentIndex = intval(substr($student->form_number, -3)); // Ambil index saat ini
+                foreach ($studentsInBatch as $studentBatch) {
+                    $currentIndex = intval(substr($studentBatch->form_number, -3)); // Ambil index saat ini
 
                     // Jika index lebih besar dari index yang dihapus, kurangi 1
                     if ($currentIndex > $oldIndex) {
@@ -216,7 +212,7 @@ class ParticipantController extends Controller
                         $newFormNumber = sprintf("%s-%s-%03d", $year, $batch_code, $newIndex);
 
                         // Update form_number siswa
-                        $student->update([
+                        $studentBatch->update([
                             'form_number' => $newFormNumber,
                         ]);
                     }

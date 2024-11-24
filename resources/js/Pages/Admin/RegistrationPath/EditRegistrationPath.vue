@@ -84,7 +84,7 @@ export default defineComponent({
 
         // Submit form
         const submitForm = () => {
-            form.post(route('registration-path.store'), {
+            form.patch(route('registration-path.update', path.id), {
                 onSuccess: () => {
                     form.reset();
 

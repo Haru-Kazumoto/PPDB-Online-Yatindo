@@ -27,7 +27,7 @@
         </div>
         <div v-else class="d-flex flex-column align-items-center">
             <n-image preview-disabled src="/images/waiting.png" width="300" />
-            <span class="fw-semibold">Pembayaran harus di verifikasi oleh admin, silahkan menunggu di verifikasi</span>
+            <span class="fw-semibold">Pembayaran harus di verifikasi oleh admin, silahkan menunggu</span>
         </div>
     </div>
 </template>

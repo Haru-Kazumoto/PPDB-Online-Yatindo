@@ -1,29 +1,47 @@
 <template>
 
     <Head title="Signup" />
-    <div class="d-flex flex-column vh-100 justify-content-center align-items-center">
-        <span class="fs-3 fw-semibold mb-5">Hai, Selamat datang!</span>
-        <form @submit.prevent="handleLogin" class="w-50 d-flex flex-column gap-4">
 
+    <!-- Header -->
+    <header class="d-flex d-md-none align-items-center p-3 w-100 text-white" style="background-color: #002365;">
+        <n-image src="/images/logo-yatindo-hd.png" width="50" class="img-fluid mr-3"/>
+        <div class="d-flex flex-column">
+            <span class="fw-semibold">PPDB YATINDO</span>
+            <span>2025 - 2026</span>
+        </div>
+    </header>
+    
+    <div class="d-flex flex-column vh-100 justify-content-center align-items-center mx-lg-5">
+        <span class="fs-3 fw-semibold mb-4">Hai, Selamat datang!</span>
+        <form @submit.prevent="handleLogin" class="w-75 d-flex flex-column gap-4">
             <div class="d-flex flex-column gap-1">
                 <Label label="Username" required sizeForm="large" />
                 <n-input placeholder="" size="large" v-model:value="form.username" />
             </div>
             <div class="d-flex flex-column gap-1">
                 <Label label="Password" required sizeForm="large" />
-                <n-input type="password" placeholder="" show-password-on="click" v-model:value="form.password"/>
+                <n-input type="password" placeholder="" show-password-on="click" v-model:value="form.password" />
             </div>
 
-            <n-button type="info" color="#161D6F" size="large" attr-type="submit" @click="handleLogin">Masuk</n-button>
+            <n-button type="info" color="#161D6F" size="large" attr-type="submit">Masuk</n-button>
 
             <div class="d-flex align-items-center">
                 <Link href="" @click.prevent="showRegisterChoice">Daftar disini!</Link>
                 <Link href="" class="ms-auto">Lapor lupa akun</Link>
             </div>
-
         </form>
     </div>
 </template>
+
+<style scoped>
+/* Tambahan styling jika diperlukan */
+header {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 10;
+}
+</style>
 
 <script lang="ts">
 import { defineComponent } from 'vue'

@@ -31,6 +31,10 @@
         body {
             font-family: 'Poppins', cursive;
         }
+
+        .table > tbody > tr > td {
+            vertical-align: middle;
+        }
     </style>
 
     @vite('resources/js/app.js')

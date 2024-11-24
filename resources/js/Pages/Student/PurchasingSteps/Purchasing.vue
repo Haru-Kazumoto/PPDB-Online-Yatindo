@@ -7,19 +7,22 @@
     </div>
     <div v-for="(batch, index) in data.batches" :key="index">
         <div class="d-flex flex-column gap-3">
-            <div :class="['card', 'float-card','mb-3', isStillOpen(batch.end_date) ? 'open-card' : 'closed-card']"
+            <div :class="['card', 'float-card', 'mb-3', isStillOpen(batch.end_date) ? 'open-card' : 'closed-card']"
                 :style="{ cursor: isStillOpen(batch.end_date) ? 'pointer' : 'not-allowed' }"
                 @click="isStillOpen(batch.end_date) ? handleAssign(batch.id, batch.type, batch.batch_code, batch.name) : null">
-                <div class="card-body d-flex gap-3 align-items-center">
-                    <n-icon :component="DocumentBulletList20Filled" size="40" />
-                    <div class="d-flex flex-column">
+                <div class="card-body d-flex gap-3 align-items-center ">
+                    <!-- <n-icon :component="DocumentBulletList20Filled" size="40" class="d-flex d-sm-none"/> -->
+                    <div class="d-flex flex-column w-100">
                         <span class="fs-5 fw-semibold">{{ batch.name }}</span>
-                        <span>{{ formatDate(batch.start_date) }} - {{ formatDate(batch.end_date) }}</span>
+                        <div class="d-flex flex-column flex-sm-row align-items-sm-center">
+                            <span>{{ formatDate(batch.start_date) }} - {{ formatDate(batch.end_date) }}</span>
+                            <n-tag :bordered="true" :type="isStillOpen(batch.end_date) ? 'success' : 'error'"
+                                size="large" round class="ms-auto mt-sm-0 mt-2">
+                                {{ isStillOpen(batch.end_date) ? 'Dibuka' : 'Ditutup' }}
+                            </n-tag>
+                        </div>
                     </div>
-                    <n-tag :bordered="true" :type="isStillOpen(batch.end_date) ? 'success' : 'error'" size="large" round
-                        class="ms-auto">
-                        {{ isStillOpen(batch.end_date) ? 'Dibuka' : 'Ditutup' }}
-                    </n-tag>
+
                 </div>
             </div>
         </div>

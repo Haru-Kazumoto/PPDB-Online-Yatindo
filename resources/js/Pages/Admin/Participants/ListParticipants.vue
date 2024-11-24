@@ -35,7 +35,8 @@
                 <div class="card-title d-flex align-items-center">
                     <span class="fw-semibold">Data Pendaftar</span>
 
-                    <n-button size="medium" class="ms-auto" color="#002365" @click="handleExportExcel(batch.id)">Export Excel</n-button>
+                    <n-button size="medium" class="ms-auto" color="#002365" @click="handleExportExcel(batch.id)">Export
+                        Excel</n-button>
                 </div>
                 <div class="d-flex flex-column">
                     <n-input placeholder="Cari nama siswa" class="w-25" @input="handleSearchQuery"
@@ -65,74 +66,8 @@ import { usePage, router } from '@inertiajs/vue3';
 import { Search16Filled } from "@vicons/fluent";
 import { DataTableColumns, NButton } from 'naive-ui';
 import { formatDate } from '../../../Utils/menus';
+import Swal from 'sweetalert2';
 
-function createColumns() {
-    return [
-        {
-            title: "#",
-            key: 'index',
-            width: 50,
-            render(row, index) {
-                return index + 1;
-            }
-        },
-        {
-            title: "Nama",
-            key: 'fullname',
-            width: 200,
-            render(row) {
-                return row.student.fullname
-            }
-        },
-        {
-            title: "Phone",
-            key: 'phone',
-            width: 150,
-            render(row) {
-                return row.student.phone;
-            }
-        },
-        {
-            title: "Tanggal Mendaftar",
-            key: 'registered_date',
-            width: 200,
-            render(row) {
-                return formatDate(row.purchase_registration_date);
-            }
-        },
-        {
-            title: "Status",
-            key: 'step_name',
-            width: 200,
-        },
-        {
-            title: "Aksi",
-            key: 'action',
-            width: 100,
-            render(row) {
-                return h('div', { class: 'd-flex gap-2' }, [
-                    h(NButton,
-                        {
-                            type: 'info',
-                            size: 'small',
-                            onClick: () => {
-                                router.get(route('participant.detail-participant', row.student.id));
-                            }
-                        },
-                        { default: () => "Detail" }
-                    ),
-                    // h(NButton,
-                    //     {
-                    //         type: 'error',
-                    //         size: 'small'
-                    //     },
-                    //     { default: () => "Hapus" }
-                    // )
-                ]);
-            }
-        }
-    ]
-}
 
 export default defineComponent({
     setup() {
@@ -144,6 +79,101 @@ export default defineComponent({
             total: (page.props.students as any).total,
             last_page: (page.props.students as any).last_page,
         });
+
+        function createColumns() {
+            return [
+                {
+                    title: "#",
+                    key: 'index',
+                    width: 50,
+                    render(row, index) {
+                        return index + 1;
+                    }
+                },
+                {
+                    title: "Nama",
+                    key: 'fullname',
+                    width: 200,
+                    render(row) {
+                        return row.student.fullname
+                    }
+                },
+                {
+                    title: "Phone",
+                    key: 'phone',
+                    width: 150,
+                    render(row) {
+                        return row.student.phone;
+                    }
+                },
+                {
+                    title: "Tanggal Mendaftar",
+                    key: 'registered_date',
+                    width: 200,
+                    render(row) {
+                        return formatDate(row.purchase_registration_date);
+                    }
+                },
+                {
+                    title: "Status",
+                    key: 'step_name',
+                    width: 200,
+                },
+                {
+                    title: "Aksi",
+                    key: 'action',
+                    width: 100,
+                    render(row) {
+                        return h('div', { class: 'd-flex gap-2' }, [
+                            h(NButton,
+                                {
+                                    type: 'info',
+                                    size: 'small',
+                                    onClick: () => {
+                                        router.get(route('participant.detail-participant', row.student.id));
+                                    }
+                                },
+                                { default: () => "Detail" }
+                            ),
+                            h(NButton,
+                                {
+                                    type: 'error',
+                                    size: 'small',
+                                    onClick: () => {
+                                        Swal.fire({
+                                            title: 'Hapus siswa ini dari gelombang?',
+                                            text: 'Setelah siswa dihapus data tersebut tidak bisa dikembalikan lag',
+                                            icon: 'warning',
+                                            showCancelButton: true,
+                                        })
+                                            .then((result) => {
+                                                if (result.isConfirmed) {
+                                                    router.patch(route('participant.delete-student', { student: row.student.id, registrationBatch: batch.id }), {}, {
+                                                        onSuccess: (page) => {
+                                                            Swal.fire({
+                                                                title: page.props.flash.success,
+                                                                icon: 'success',
+                                                            });
+                                                        },
+                                                        onError: (error) => {
+                                                            Swal.fire({
+                                                                title: "Error, silahkan lapor developer",
+                                                                icon: 'error',
+                                                            });
+                                                        }
+                                                    });
+
+                                                }
+                                            });
+                                    }
+                                },
+                                { default: () => "Hapus" }
+                            )
+                        ]);
+                    }
+                }
+            ]
+        }
 
         const search_name = ref('');
 
@@ -171,7 +201,7 @@ export default defineComponent({
         }
 
         function handleExportExcel(batch_id: number) {
-            router.get(route('participant.get-participants',batch_id));
+            router.post(route('participant.get-participants', batch_id));
         }
 
         return {

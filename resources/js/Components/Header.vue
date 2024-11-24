@@ -1,22 +1,25 @@
 <template>
     <div class="d-flex" :style="{ backgroundColor: backgroundColor, height: '4rem' }">
         <div class="mx-4 align-items-center d-flex w-100">
+            <n-icon :component="DataBarHorizontal24Filled" class="text-white fs-3 mr-3 d-lg-none d-flex" @click="toggleCollapse" style="cursor: pointer;"/>
             <n-image width="50" src="/images/logo-yatindo-hd.png" preview-disabled />
             <div style="height: 50px; width: 2px; background-color: white; margin: 0px 15px;" />
             <div class="d-flex flex-column text-white">
-                <span class="fw-semibold">PPDB Yatindo</span>
-                <span>Yayasan Tinta Emas Indonesia</span>
+                <span class="fw-semibold fs-6 fs-md-5">PPDB Yatindo</span>
+                <span class="fs-7 fs-md-6 d-lg-flex d-none">Yayasan Tinta Emas Indonesia</span>
             </div>
+
             <!-- user options -->
             <n-dropdown :options="options" @select="handleSelectKey" trigger="click">
                 <div class="d-flex flex-row ms-auto align-items-center  p-2 text-white gap-2" style="cursor: pointer;">
                     <div class="d-flex bg-white p-2 rounded-circle">
-                        <n-icon :component="Person32Filled" color="black"/>
+                        <n-icon :component="Person32Filled" color="black" />
                     </div>
-                    <span class="d-none d-md-flex">{{ 
-                        $page.props.auth.user.is_admin ? $page.props.auth.user?.fullname : $page.props.auth.user.student.fullname
+                    <span class="d-none d-md-flex">{{
+                        $page.props.auth.user.is_admin ? $page.props.auth.user?.fullname :
+                            $page.props.auth.user.student.fullname
                     }}</span>
-                    <n-icon :component="ChevronDown12Regular"/>
+                    <n-icon :component="ChevronDown12Regular" />
                 </div>
             </n-dropdown>
         </div>
@@ -24,12 +27,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, h, computed } from 'vue';
+import { defineComponent, inject, h, computed, onMounted } from 'vue';
 // import { Person, ReorderFourSharp as Hamburger, LogOutOutline as LogoutIcon, PersonCircleOutline as UserIcon } from "@vicons/ionicons5";
 import { NIcon, useNotification } from 'naive-ui';
 import Swal from 'sweetalert2';
 import { router, useForm, usePage } from '@inertiajs/vue3';
-import { ArrowCircleRight32Filled, Person32Filled, ChevronDown12Regular } from '@vicons/fluent';
+import { ArrowCircleRight32Filled, Person32Filled, ChevronDown12Regular, DataBarHorizontal24Filled } from '@vicons/fluent';
 
 function renderIcon(icon) {
     return () => h(NIcon, null, { default: () => h(icon) });
@@ -95,7 +98,8 @@ export default defineComponent({
                 }
             ],
             Person32Filled,
-            ChevronDown12Regular
+            ChevronDown12Regular,
+            DataBarHorizontal24Filled
         };
     }
 });
