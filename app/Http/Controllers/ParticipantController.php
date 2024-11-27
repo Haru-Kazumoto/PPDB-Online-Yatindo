@@ -115,7 +115,7 @@ class ParticipantController extends Controller
         $batch_name = Str::lower(Str::replace(' ', '_', $batch->name));
 
         // Pass data student ke dalam StudentExport dan download sebagai Excel
-        return Excel::download(new StudentExport($batch->id), "data_siswa_$batch_name.xlsx");
+        return Excel::download(new StudentExport($batch->id), 'data_siswa'.$batch_name.'.xlsx');
     }
 
     public function showParticipant(Student $student)

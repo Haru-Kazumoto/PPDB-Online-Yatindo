@@ -201,7 +201,18 @@ export default defineComponent({
         }
 
         function handleExportExcel(batch_id: number) {
-            router.post(route('participant.get-participants', batch_id));
+            const url = route('participant.get-participants', batch_id);
+            window.location.href = url;
+            // router.post(route('participant.get-participants', batch_id), {}, {
+            //     preserveState: true,
+            //     preserveScroll: true,
+            //     onProgress(data) {
+            //         console.log(data);
+            //     },
+            //     onSuccess(page) {
+            //         console.log(page)
+            //     }
+            // });
         }
 
         return {
