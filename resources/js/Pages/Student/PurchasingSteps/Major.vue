@@ -11,6 +11,8 @@
                     <option value="TO">Teknik Otomotif</option>
                     <option value="TE">Teknik Elektro</option>
                     <option value="AK">Akuntansi dan Keuangan</option>
+                    <option value="TSM">Teknik Sepedah Motor</option>
+                    <option value="TAB">Teknik Alat Berat</option>
                 </select>
             </div>
             <div class="form-group mt-2">
@@ -21,6 +23,8 @@
                     <option value="TO">Teknik Otomotif</option>
                     <option value="TE">Teknik Elektro</option>
                     <option value="AK">Akuntansi dan Keuangan</option>
+                    <option value="TSM">Teknik Sepedah Motor</option>
+                    <option value="TAB">Teknik Alat Berat</option>
                 </select>
             </div>
             <button class="btn btn-primary mt-3" @click="handleAssign">Submit</button>
