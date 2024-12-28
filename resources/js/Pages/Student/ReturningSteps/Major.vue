@@ -11,6 +11,8 @@
                 <option value="TE">Teknik Elektro</option>
                 <option value="TO">Teknik Otomotif</option>
                 <option value="AK">Akuntansi dan Keuangan</option>
+                <option value="TSM">Teknik Sepedah Motor</option>
+                <option value="TAB">Teknik Alat Berat</option>
             </select>
         </div>
         <div class="form-group mt-2" v-if="$page.props.data.batches.type === 'PEMBELIAN'">
@@ -21,6 +23,8 @@
                 <option value="TE">Teknik Elektro</option>
                 <option value="TO">Teknik Otomotif</option>
                 <option value="AK">Akuntansi dan Keuangan</option>
+                <option value="TSM">Teknik Sepedah Motor</option>
+                <option value="TAB">Teknik Alat Berat</option>
             </select>
         </div>
         <n-button size="large" class="mt-3" color="#002365" @click="handleAssign">Submit</n-button>
