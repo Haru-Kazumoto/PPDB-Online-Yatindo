@@ -15,7 +15,7 @@
         <span class="fs-3 fw-semibold mb-4">Hai, Selamat datang!</span>
         <form @submit.prevent="handleLogin" class="w-75 d-flex flex-column gap-4">
             <div class="d-flex flex-column gap-1">
-                <Label label="Username" required sizeForm="large" />
+                <Label label="Username (No. Whatsapp)" required sizeForm="large" />
                 <n-input placeholder="" size="large" v-model:value="form.username" />
             </div>
             <div class="d-flex flex-column gap-1">
